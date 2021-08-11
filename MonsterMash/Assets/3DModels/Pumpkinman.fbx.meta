@@ -26,7 +26,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -68,9 +68,9 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 60
-    normalImportMode: 0
-    tangentImportMode: 3
+    normalSmoothAngle: 80
+    normalImportMode: 1
+    tangentImportMode: 2
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
@@ -80,7 +80,177 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Pumpkinman(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PumpkinmanMesh
+      parentName: Pumpkinman(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Pumpkinman
+      parentName: Pumpkinman(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Root
+      parentName: Pumpkinman
+      position: {x: 0, y: -0.000121026635, z: 0.005224484}
+      rotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071069}
+      scale: {x: 1, y: 0.99999976, z: 0.99999976}
+    - name: Spine01
+      parentName: Root
+      position: {x: -0, y: 0.0013586461, z: 0}
+      rotation: {x: -0, y: -0, z: -2.9047787e-29, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Spine02
+      parentName: Spine01
+      position: {x: 3.7252902e-11, y: 0.0021206515, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1}
+    - name: Head
+      parentName: Spine02
+      position: {x: -7.4505804e-11, y: 0.0013329809, z: 0}
+      rotation: {x: -3.381607e-37, y: 0.00000001164153, z: -0.00000000654836, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: Head_end
+      parentName: Head
+      position: {x: -0, y: 0.0052890084, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder.L
+      parentName: Spine02
+      position: {x: -7.4505804e-11, y: 0.0013329809, z: 0}
+      rotation: {x: 0.00000008940694, y: -0.000000059604623, z: 0.8134486, w: 0.58163685}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: UpperArm.L
+      parentName: Shoulder.L
+      position: {x: 7.722743e-11, y: 0.0018098512, z: -1.1995228e-10}
+      rotation: {x: -0.030828964, y: 0.0061744284, z: -0.19026025, w: 0.98123014}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: LowerArm.L
+      parentName: UpperArm.L
+      position: {x: 2.5145708e-10, y: 0.0026339262, z: -7.4505804e-11}
+      rotation: {x: 0.064892896, y: -0.0011394662, z: 0.004233453, w: 0.99788266}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1.0000014}
+    - name: Hand.L
+      parentName: LowerArm.L
+      position: {x: 0.0000000011805968, y: 0.0018160747, z: 3.7252902e-11}
+      rotation: {x: -0.050538436, y: 0.001738888, z: 0.034341767, w: 0.99812996}
+      scale: {x: 0.9999998, y: 1.0000005, z: 1.0000007}
+    - name: Hand.L_end
+      parentName: Hand.L
+      position: {x: -0, y: 0.0013246331, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder.R
+      parentName: Spine02
+      position: {x: -7.4505804e-11, y: 0.0013329809, z: 0}
+      rotation: {x: 0.000000089406946, y: 0.00000005960463, z: -0.8134488, w: 0.58163667}
+      scale: {x: 1, y: 1, z: 1}
+    - name: UpperArm.R
+      parentName: Shoulder.R
+      position: {x: -5.9876804e-10, y: 0.0018098509, z: 1.9813975e-10}
+      rotation: {x: -0.030829383, y: -0.0061744624, z: 0.19026062, w: 0.98123}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: LowerArm.R
+      parentName: UpperArm.R
+      position: {x: -1.0419171e-10, y: 0.0026339265, z: -2.2351741e-10}
+      rotation: {x: 0.06489333, y: 0.0011393712, z: -0.0042330627, w: 0.9978826}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000001}
+    - name: Hand.R
+      parentName: LowerArm.R
+      position: {x: 2.7939676e-10, y: 0.0018160753, z: 1.11758706e-10}
+      rotation: {x: -0.05053844, y: -0.0017388074, z: -0.03434177, w: 0.99813}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000006}
+    - name: Hand.R_end
+      parentName: Hand.R
+      position: {x: -0, y: 0.0013246331, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: UpperLeg.L
+      parentName: Root
+      position: {x: -0.0011486855, y: 0.000037868616, z: -0.000121026635}
+      rotation: {x: 0.00000006073504, y: 0.04500812, z: 0.9989866, w: -0.000000026043027}
+      scale: {x: 1.0000008, y: 1.0000055, z: 1.0000534}
+    - name: LowerLeg.L
+      parentName: UpperLeg.L
+      position: {x: 1.6763806e-10, y: 0.0028263617, z: 2.188608e-10}
+      rotation: {x: -0.081004746, y: 0.000000061426256, z: -0.000000047117958, w: 0.9967137}
+      scale: {x: 0.99999994, y: 1.000001, z: 0.9999952}
+    - name: Foot.L
+      parentName: LowerLeg.L
+      position: {x: -1.069111e-11, y: 0.0018468151, z: 6.5233506e-11}
+      rotation: {x: 0.6008914, y: 0.000000061024814, z: 0.000000073200276, w: 0.7993306}
+      scale: {x: 1.000059, y: 0.9999689, z: 0.99999297}
+    - name: Foot.L_end
+      parentName: Foot.L
+      position: {x: -0, y: 0.0016176383, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: UpperLeg.R
+      parentName: Root
+      position: {x: 0.0011486855, y: 0.000037868616, z: -0.000121026635}
+      rotation: {x: -0.000000057100742, y: 0.04500812, z: 0.9989866, w: 0.000000025879286}
+      scale: {x: 1.0000014, y: 1.000006, z: 1.0000525}
+    - name: LowerLeg.R
+      parentName: UpperLeg.R
+      position: {x: -0, y: 0.002826361, z: 6.519258e-11}
+      rotation: {x: -0.081004746, y: -0.000000011328381, z: 0.00000003502742, w: 0.9967137}
+      scale: {x: 0.99999976, y: 0.99999917, z: 0.99999726}
+    - name: Foot.R
+      parentName: LowerLeg.R
+      position: {x: -2.0236257e-10, y: 0.001846815, z: 9.345967e-11}
+      rotation: {x: 0.6008914, y: -0.000000102857314, z: -0.000000030659727, w: 0.7993306}
+      scale: {x: 1.0000694, y: 0.99995947, z: 0.9999924}
+    - name: Foot.R_end
+      parentName: Foot.R
+      position: {x: -0, y: 0.0016176383, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKLegPole.L
+      parentName: Pumpkinman
+      position: {x: -0.00441103, y: -0.0016056194, z: 0.0022094825}
+      rotation: {x: -6.123234e-17, y: 0.00000008940697, z: 1, w: -6.123234e-17}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: IKLegPole.L_end
+      parentName: IKLegPole.L
+      position: {x: -0, y: 0.00090769946, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKTarget.L
+      parentName: Pumpkinman
+      position: {x: -0.0021232336, y: -5.088001e-12, z: 0.0005892692}
+      rotation: {x: 0.000000046566118, y: -1, z: 0.00000008940697, w: 0.00000006984919}
+      scale: {x: 1.0000007, y: 1.0000001, z: 1.0000001}
+    - name: IKTarget.L_end
+      parentName: IKTarget.L
+      position: {x: -0, y: 0.000716074, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKLegPole.R
+      parentName: Pumpkinman
+      position: {x: 0.0066136, y: -0.0016056194, z: 0.0024312814}
+      rotation: {x: -6.123234e-17, y: 0.00000008940697, z: 1, w: -6.123234e-17}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: IKLegPole.R_end
+      parentName: IKLegPole.R
+      position: {x: -0, y: 0.00090769946, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IKTarget.R
+      parentName: Pumpkinman
+      position: {x: 0.0017693862, y: -5.088001e-12, z: 0.0005892692}
+      rotation: {x: -0.000000023283055, y: -1, z: 0.00000008940697, w: -0.000000069849186}
+      scale: {x: 1.0000004, y: 1, z: 1}
+    - name: IKTarget.R_end
+      parentName: IKTarget.R
+      position: {x: -0, y: 0.000716074, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -91,13 +261,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

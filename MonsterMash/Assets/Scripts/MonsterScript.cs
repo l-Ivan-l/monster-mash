@@ -6,6 +6,7 @@ public class MonsterScript : MonoBehaviour
 {
     private InputMaster inputMaster;
 
+    //Movement variables
     private Rigidbody monsterBody;
     public float moveSpeed = 5f;
     private Vector3 inputDirection;
@@ -15,6 +16,7 @@ public class MonsterScript : MonoBehaviour
     private Vector3 turnVelocity = Vector3.zero;
     private float turnSmoothDamp = 0.05f;
 
+    //Jump variables
     [SerializeField]
     private bool onGround;
     public LayerMask groundLayer;
@@ -22,6 +24,13 @@ public class MonsterScript : MonoBehaviour
     public float contactRadius;
     public float jumpForce = 7f;
     public float fallMultiplier = 2.5f;
+
+    //Spring variables
+    public Transform pogo;
+    private float minSpringDistance = -0.185f;
+    private float maxSpringDistance = 0.18f;
+    private float springSmoothDamp = 0.04f;
+    private Vector3 springVelocity = Vector3.zero;
 
     private void Awake()
     {
@@ -55,6 +64,7 @@ public class MonsterScript : MonoBehaviour
     {
         InputProcessing();
         MonsterJumpPhysics();
+        PogoSpringPhysics();
     }
 
     private void FixedUpdate()
@@ -107,12 +117,31 @@ public class MonsterScript : MonoBehaviour
         }
     }
 
+    void PogoSpringPhysics()
+    {
+        Vector3 pogoNewPos = pogo.localPosition;
+        if(onGround)
+        {
+            pogoNewPos.y = minSpringDistance;
+        } else
+        {
+            pogoNewPos.y = maxSpringDistance;
+        }
+
+        pogo.localPosition = Vector3.SmoothDamp(pogo.localPosition, pogoNewPos, ref springVelocity, springSmoothDamp);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground") && CheckIfMonsterGrounded())
         {
             MonsterJump();
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        CheckIfMonsterGrounded();
     }
 
     private void OnDrawGizmos()
