@@ -51,7 +51,7 @@ public class MonsterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
 
         forwardDir = Camera.main.transform.forward;
         forwardDir.y = 0;
@@ -70,6 +70,7 @@ public class MonsterScript : MonoBehaviour
     private void FixedUpdate()
     {
         MonsterMovement();
+        CheckIfMonsterGrounded();
     }
 
     void SetUpInputs()
@@ -135,17 +136,18 @@ public class MonsterScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && CheckIfMonsterGrounded())
+        if (collision.gameObject.CompareTag("Ground") && onGround)
         {
             MonsterJump();
         }
     }
-
+    /*
     private void OnCollisionExit(Collision collision)
     {
+        Debug.Log("OnCollisionExit");
         CheckIfMonsterGrounded();
     }
-
+    */
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
