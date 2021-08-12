@@ -29,7 +29,7 @@ public class MonsterScript : MonoBehaviour
     public Transform pogo;
     private float minSpringDistance = -0.185f;
     private float maxSpringDistance = 0.18f;
-    private float springSmoothDamp = 0.04f;
+    private float springSmoothDamp = 0.02f;
     private Vector3 springVelocity = Vector3.zero;
 
     private void Awake()
@@ -123,9 +123,11 @@ public class MonsterScript : MonoBehaviour
         if(onGround)
         {
             pogoNewPos.y = minSpringDistance;
+            springSmoothDamp = 0.02f;
         } else
         {
             pogoNewPos.y = maxSpringDistance;
+            springSmoothDamp = 0.06f;
         }
 
         pogo.localPosition = Vector3.SmoothDamp(pogo.localPosition, pogoNewPos, ref springVelocity, springSmoothDamp);
