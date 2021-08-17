@@ -19,7 +19,7 @@ public class MonsterScript : MonoBehaviour
     //Jump variables
     [SerializeField]
     private bool onGround;
-    public LayerMask groundLayer;
+    public LayerMask jumpLayers;
     public Vector3 contactOffset;
     public float contactRadius;
     public float jumpForce = 7f;
@@ -78,7 +78,7 @@ public class MonsterScript : MonoBehaviour
     private void FixedUpdate()
     {
         MonsterMovement();
-        CheckIfMonsterGrounded();
+        CheckPogoFloorProximity();
     }
 
     void SetUpInputs()
@@ -108,8 +108,12 @@ public class MonsterScript : MonoBehaviour
 
     bool CheckIfMonsterGrounded()
     {
-        onGround = Physics.CheckSphere(transform.position + contactOffset, contactRadius, groundLayer);
-        return onGround;
+        return Physics.CheckSphere(transform.position + contactOffset, contactRadius, jumpLayers);
+    }
+
+    void CheckPogoFloorProximity()
+    {
+        onGround = Physics.CheckSphere(transform.position + contactOffset, contactRadius, jumpLayers);
     }
 
     void MonsterJump()
@@ -144,19 +148,16 @@ public class MonsterScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && onGround)
+        if (CheckIfMonsterGrounded())
         {
             MonsterJump();
             SpawnImpactVFX();
+            if(collision.gameObject.CompareTag("Vegetable"))
+            {
+                collision.gameObject.GetComponent<Vegetable>().ApplyDamage();
+            }
         }
     }
-    /*
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("OnCollisionExit");
-        CheckIfMonsterGrounded();
-    }
-    */
 
     void CreateImpactVFXPool()
     {
