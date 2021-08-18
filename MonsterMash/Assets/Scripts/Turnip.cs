@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turnip : Vegetable
 {
     private Vector3 currentDirection = new Vector3();
-    private float moveSpeed = 8f;
+    private float moveSpeed = 6f;
 
     // Start is called before the first frame update
     void Start()

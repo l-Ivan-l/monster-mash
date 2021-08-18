@@ -32,16 +32,19 @@ public class MonsterScript : MonoBehaviour
     private float springSmoothDamp = 0.02f;
     private Vector3 springVelocity = Vector3.zero;
 
-    //VFX
-    [SerializeField] private GameObject impactVFXPrefab;
-    [SerializeField] private Transform impactVFXContainer;
-    private int impactVFXPoolLength = 2;
-    private List<ParticleSystem> impactVFXPool = new List<ParticleSystem>();
+    //Stomp variables
+    private bool stomp;
+    public float stompSpeed = 200f;
+    public ParticleSystem stompVFX;
+    private bool canStomp;
+
+    private VFXPool vfx;
 
     private void Awake()
     {
         SetUpInputs();
         monsterBody = GetComponent<Rigidbody>();
+        vfx = GameObject.FindObjectOfType<VFXPool>();
     }
 
     private void OnEnable()
@@ -64,7 +67,7 @@ public class MonsterScript : MonoBehaviour
         forwardDir = Vector3.Normalize(forwardDir);
         rightDir = Quaternion.Euler(new Vector3(0, 90, 0)) * forwardDir;
 
-        CreateImpactVFXPool();
+        canStomp = true;
     }
 
     // Update is called once per frame
@@ -84,6 +87,7 @@ public class MonsterScript : MonoBehaviour
     void SetUpInputs()
     {
         inputMaster = new InputMaster();
+        inputMaster.GameplayActions.Stomp.performed += _ => Stomp();
     }
 
     void InputProcessing()
@@ -94,16 +98,22 @@ public class MonsterScript : MonoBehaviour
         movementDirection = Vector3.Normalize(rightMovement + upMovement);
         movementDirection = Vector3.ClampMagnitude(movementDirection, 1 / Mathf.Sqrt(2)) * Mathf.Sqrt(2);
 
-        if(inputDirection.magnitude > 0)
+        if(inputDirection.magnitude > 0 && !stomp)
         {
             Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
             transform.forward = Vector3.SmoothDamp(transform.forward, heading, ref turnVelocity, turnSmoothDamp);
-        }
+        } 
     }
 
     void MonsterMovement()
     {
-        monsterBody.velocity = new Vector3(movementDirection.x * moveSpeed, monsterBody.velocity.y, movementDirection.z * moveSpeed);
+        if(!stomp)
+        {
+            monsterBody.velocity = new Vector3(movementDirection.x * moveSpeed, monsterBody.velocity.y, movementDirection.z * moveSpeed);
+        } else
+        {
+            monsterBody.velocity = new Vector3(0f, monsterBody.velocity.y, 0f);
+        }
     }
 
     bool CheckIfMonsterGrounded()
@@ -124,9 +134,13 @@ public class MonsterScript : MonoBehaviour
 
     void MonsterJumpPhysics()
     {
-        if (monsterBody.velocity.y < 0)
+        if (monsterBody.velocity.y < 0 && !stomp)
         {
             monsterBody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        } 
+        else if(stomp)
+        {
+            monsterBody.velocity += Vector3.up * Physics.gravity.y * stompSpeed * Time.deltaTime;
         }
     }
 
@@ -146,40 +160,36 @@ public class MonsterScript : MonoBehaviour
         pogo.localPosition = Vector3.SmoothDamp(pogo.localPosition, pogoNewPos, ref springVelocity, springSmoothDamp);
     }
 
+    void Stomp()
+    {
+        if(!stomp && canStomp)
+        {
+            stomp = true;
+            canStomp = false;
+            stompVFX.Play();
+        }
+    }
+
+    IEnumerator StompCooldown(float _timer)
+    {
+        yield return new WaitForSeconds(_timer);
+        canStomp = true;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (CheckIfMonsterGrounded())
         {
+            if (stomp)
+            {
+                stomp = false;
+                StartCoroutine(StompCooldown(0.25f));
+            }
             MonsterJump();
-            SpawnImpactVFX();
+            vfx.SpawnImpactVFX(transform.position + contactOffset);
             if(collision.gameObject.CompareTag("Vegetable"))
             {
                 collision.gameObject.GetComponent<Vegetable>().ApplyDamage();
-            }
-        }
-    }
-
-    void CreateImpactVFXPool()
-    {
-        for (int i = 0; i < impactVFXPoolLength; i++)
-        {
-            ParticleSystem impact = Instantiate(impactVFXPrefab, Vector3.zero, Quaternion.identity, impactVFXContainer).GetComponent<ParticleSystem>();
-            Quaternion impactRot = new Quaternion(0f, 0f, 0f, 0f);
-            impactRot.eulerAngles = new Vector3(0f, 90f, 0f);
-            impact.gameObject.transform.rotation = impactRot;
-            impactVFXPool.Add(impact);
-        }
-    }
-
-    void SpawnImpactVFX()
-    {
-        for (int i = 0; i < impactVFXPool.Count; i++)
-        {
-            if (!impactVFXPool[i].isPlaying)
-            {
-                impactVFXPool[i].transform.position = transform.position + contactOffset;
-                impactVFXPool[i].Play();
-                break;
             }
         }
     }

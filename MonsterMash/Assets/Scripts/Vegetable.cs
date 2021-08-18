@@ -7,10 +7,12 @@ public class Vegetable : MonoBehaviour
     protected int life;
 
     protected Rigidbody vegetableBody;
+    private VFXPool vfx;
 
     private void Awake()
     {
         vegetableBody = GetComponent<Rigidbody>();
+        vfx = GameObject.FindObjectOfType<VFXPool>();
     }
 
     public void ApplyDamage()
@@ -24,6 +26,7 @@ public class Vegetable : MonoBehaviour
 
     void Die()
     {
-
+        vfx.SpawnVegetableVFX(transform.position);
+        gameObject.SetActive(false);
     }
 }
