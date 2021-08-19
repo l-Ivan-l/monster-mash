@@ -126,10 +126,10 @@ public class MonsterScript : MonoBehaviour
         onGround = Physics.CheckSphere(transform.position + contactOffset, contactRadius, jumpLayers);
     }
 
-    void MonsterJump()
+    void MonsterJump(float _jumpForce)
     {
         monsterBody.velocity = new Vector2(monsterBody.velocity.x, 0);
-        monsterBody.velocity += Vector3.up * jumpForce;
+        monsterBody.velocity += Vector3.up * _jumpForce;
     }
 
     void MonsterJumpPhysics()
@@ -162,7 +162,7 @@ public class MonsterScript : MonoBehaviour
 
     void Stomp()
     {
-        if(!stomp && canStomp)
+        if(!stomp && canStomp && !onGround)
         {
             stomp = true;
             canStomp = false;
@@ -184,8 +184,12 @@ public class MonsterScript : MonoBehaviour
             {
                 stomp = false;
                 StartCoroutine(StompCooldown(0.25f));
+                MonsterJump(jumpForce + 2f);
+            } else
+            {
+                MonsterJump(jumpForce);
             }
-            MonsterJump();
+            
             vfx.SpawnImpactVFX(transform.position + contactOffset);
             if(collision.gameObject.CompareTag("Vegetable"))
             {
