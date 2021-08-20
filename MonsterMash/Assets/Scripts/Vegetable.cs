@@ -15,6 +15,12 @@ public class Vegetable : MonoBehaviour
         vfx = GameObject.FindObjectOfType<VFXPool>();
     }
 
+    private void OnEnable()
+    {
+        //Spawn effect
+        vfx.SpawnInstantiateVFX(transform.position);
+    }
+
     public void ApplyDamage()
     {
         life -= 1;

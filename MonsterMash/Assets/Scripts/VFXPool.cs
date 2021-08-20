@@ -14,12 +14,18 @@ public class VFXPool : MonoBehaviour
     [SerializeField] private Transform vegetableVFXContainer;
     private int vegetableVFXPoolLength = 3;
     private List<ParticleSystem> vegetableVFXPool = new List<ParticleSystem>();
+    //Spawn VFX
+    [SerializeField] private GameObject spawnVFXPrefab;
+    [SerializeField] private Transform spawnVFXContainer;
+    private int spawnVFXPoolLength = 10;
+    private List<ParticleSystem> spawnVFXPool = new List<ParticleSystem>();
 
     // Start is called before the first frame update
     void Start()
     {
         CreateImpactVFXPool();
         CreateVegetableVFXPool();
+        CreateSpawnVFXPool();
     }
 
     void CreateImpactVFXPool()
@@ -46,6 +52,18 @@ public class VFXPool : MonoBehaviour
         }
     }
 
+    void CreateSpawnVFXPool()
+    {
+        for (int i = 0; i < spawnVFXPoolLength; i++)
+        {
+            ParticleSystem spawn = Instantiate(spawnVFXPrefab, Vector3.zero, Quaternion.identity, spawnVFXContainer).GetComponent<ParticleSystem>();
+            Quaternion spawnRot = new Quaternion(0f, 0f, 0f, 0f);
+            spawnRot.eulerAngles = new Vector3(0f, 90f, 0f);
+            spawn.gameObject.transform.rotation = spawnRot;
+            spawnVFXPool.Add(spawn);
+        }
+    }
+    //---------------------------------------------------------------------------
     public void SpawnImpactVFX(Vector3 _position)
     {
         for (int i = 0; i < impactVFXPool.Count; i++)
@@ -67,6 +85,19 @@ public class VFXPool : MonoBehaviour
             {
                 vegetableVFXPool[i].transform.position = _position;
                 vegetableVFXPool[i].Play();
+                break;
+            }
+        }
+    }
+
+    public void SpawnInstantiateVFX(Vector3 _position)
+    {
+        for (int i = 0; i < spawnVFXPool.Count; i++)
+        {
+            if (!spawnVFXPool[i].isPlaying)
+            {
+                spawnVFXPool[i].transform.position = _position;
+                spawnVFXPool[i].Play();
                 break;
             }
         }
