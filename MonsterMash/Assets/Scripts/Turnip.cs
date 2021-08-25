@@ -11,6 +11,7 @@ public class Turnip : Vegetable
     void Start()
     {
         life = 1;
+        scoreValue = 8;
         Vector3 initDir = Random.insideUnitSphere;
         ChangeDirection(initDir.normalized);
     }
@@ -35,7 +36,7 @@ public class Turnip : Vegetable
     {
         _dir.y = 0f;
         currentDirection = _dir;
-        Debug.Log("Turnip direction: " + currentDirection);
+        //Debug.Log("Turnip direction: " + currentDirection);
     }
 
     private void OnCollisionEnter(Collision collision)

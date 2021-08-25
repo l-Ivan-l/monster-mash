@@ -38,13 +38,12 @@ public class MonsterScript : MonoBehaviour
     public ParticleSystem stompVFX;
     private bool canStomp;
 
-    private VFXPool vfx;
+    private int lifes = 3;
 
     private void Awake()
     {
         SetUpInputs();
         monsterBody = GetComponent<Rigidbody>();
-        vfx = GameObject.FindObjectOfType<VFXPool>();
     }
 
     private void OnEnable()
@@ -176,6 +175,24 @@ public class MonsterScript : MonoBehaviour
         canStomp = true;
     }
 
+    void LoseLife()
+    {
+        lifes -= 1;
+        if(lifes <= 0)
+        {
+            //Game Over
+        }
+        else
+        {
+            Respawn();
+        }
+    }
+
+    void Respawn()
+    {
+        transform.position = GameController.instance.CurrentStage.stageSpawn.position;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (CheckIfMonsterGrounded())
@@ -189,12 +206,29 @@ public class MonsterScript : MonoBehaviour
             {
                 MonsterJump(jumpForce);
             }
-            
-            vfx.SpawnImpactVFX(transform.position + contactOffset);
+
+            VFXPool.instance.SpawnImpactVFX(transform.position + contactOffset);
             if(collision.gameObject.CompareTag("Vegetable"))
             {
                 collision.gameObject.GetComponent<Vegetable>().ApplyDamage();
             }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision) //Avoid getting stuck
+    {
+        if (collision.gameObject.CompareTag("Prop") && stomp && !CheckIfMonsterGrounded())
+        {
+            stomp = false;
+            StartCoroutine(StompCooldown(0.25f));
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Death"))
+        {
+            LoseLife();
         }
     }
 

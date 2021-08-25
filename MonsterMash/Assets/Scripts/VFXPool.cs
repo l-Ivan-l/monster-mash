@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VFXPool : MonoBehaviour
 {
+    public static VFXPool instance;
     //Impact VFX
     [SerializeField] private GameObject impactVFXPrefab;
     [SerializeField] private Transform impactVFXContainer;
@@ -19,6 +20,18 @@ public class VFXPool : MonoBehaviour
     [SerializeField] private Transform spawnVFXContainer;
     private int spawnVFXPoolLength = 10;
     private List<ParticleSystem> spawnVFXPool = new List<ParticleSystem>();
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

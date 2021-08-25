@@ -5,20 +5,19 @@ using UnityEngine;
 public class Vegetable : MonoBehaviour
 {
     protected int life;
+    protected int scoreValue;
 
     protected Rigidbody vegetableBody;
-    private VFXPool vfx;
 
     private void Awake()
     {
         vegetableBody = GetComponent<Rigidbody>();
-        vfx = GameObject.FindObjectOfType<VFXPool>();
     }
 
     private void OnEnable()
     {
         //Spawn effect
-        vfx.SpawnInstantiateVFX(transform.position);
+        VFXPool.instance.SpawnInstantiateVFX(transform.position);
     }
 
     public void ApplyDamage()
@@ -32,7 +31,10 @@ public class Vegetable : MonoBehaviour
 
     void Die()
     {
-        vfx.SpawnVegetableVFX(transform.position);
+        GameController.instance.Score += scoreValue;
+        GameController.instance.VegetableDeathEvent();
+
+        VFXPool.instance.SpawnVegetableVFX(transform.position);
         gameObject.SetActive(false);
     }
 }
