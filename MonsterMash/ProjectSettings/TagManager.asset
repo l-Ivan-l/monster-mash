@@ -8,6 +8,7 @@ TagManager:
   - Vegetable
   - Prop
   - Death
+  - TurnipSpawn
   layers:
   - Default
   - TransparentFX
