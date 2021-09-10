@@ -14,7 +14,7 @@ public class Vegetable : MonoBehaviour
         vegetableBody = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         //Spawn effect
         VFXPool.instance.SpawnInstantiateVFX(transform.position);

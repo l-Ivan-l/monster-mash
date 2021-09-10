@@ -40,6 +40,8 @@ public class MonsterScript : MonoBehaviour
 
     private int lifes = 3;
 
+    public bool onExplosion;
+
     private void Awake()
     {
         SetUpInputs();
@@ -106,12 +108,16 @@ public class MonsterScript : MonoBehaviour
 
     void MonsterMovement()
     {
-        if(!stomp)
+        if(!onExplosion)
         {
-            monsterBody.velocity = new Vector3(movementDirection.x * moveSpeed, monsterBody.velocity.y, movementDirection.z * moveSpeed);
-        } else
-        {
-            monsterBody.velocity = new Vector3(0f, monsterBody.velocity.y, 0f);
+            if (!stomp)
+            {
+                monsterBody.velocity = new Vector3(movementDirection.x * moveSpeed, monsterBody.velocity.y, movementDirection.z * moveSpeed);
+            }
+            else
+            {
+                monsterBody.velocity = new Vector3(0f, monsterBody.velocity.y, 0f);
+            }
         }
     }
 
@@ -197,6 +203,11 @@ public class MonsterScript : MonoBehaviour
     {
         if (CheckIfMonsterGrounded())
         {
+            if(onExplosion)
+            {
+                onExplosion = false;
+            }
+
             if (stomp)
             {
                 stomp = false;
