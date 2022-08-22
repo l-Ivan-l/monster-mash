@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class StageController : MonoBehaviour
 {
     private Collider stageTrigger;
@@ -13,6 +17,9 @@ public class StageController : MonoBehaviour
     public Transform[] wavesSpawnsContainers;
     private int initVegetablesOnWave;
     private int vegetablesLeft = 0;
+
+    public bool isFinalStage;
+    [HideInInspector]public GameObject finalGate;
 
     private void Awake()
     {
@@ -44,10 +51,21 @@ public class StageController : MonoBehaviour
 
         for (int i = 0; i < wavesSpawnsContainers[waveIndex].childCount; i++)
         {
-            if(wavesSpawnsContainers[waveIndex].GetChild(i).CompareTag("TurnipSpawn"))
+            Transform spawner = wavesSpawnsContainers[waveIndex].GetChild(i);
+            switch (spawner.gameObject.tag)
             {
-                //Spawn turnip
-                VegetablesPool.instance.SpawnTurnip(wavesSpawnsContainers[waveIndex].GetChild(i).position);
+                case "TurnipSpawn":
+                    //Spawn turnip
+                    VegetablesPool.instance.SpawnTurnip(spawner.position);
+                    break;
+
+                case "EggPlantSpawn":
+                    VegetablesPool.instance.SpawnEggPlant(spawner.position);
+                    break;
+
+                case "PotatoSpawn":
+                    VegetablesPool.instance.SpawnPotato(spawner.position);
+                    break;
             }
         }
     }
@@ -68,6 +86,12 @@ public class StageController : MonoBehaviour
     public void StageCleared() //All vegetables defeated
     {
         GameController.OnVegetableDead -= CheckVegetablesLeft;
+
+        if(isFinalStage)
+        {
+            GameController.instance.GameFinished();
+            StartCoroutine(OpenFinalGate(GameController.instance.comboAddedClip.length)); //In case there is a combo running.
+        }
         //Deactivate bars
         for (int i = 0; i < bars.Length; i++)
         {
@@ -82,4 +106,29 @@ public class StageController : MonoBehaviour
             StageActive();
         }
     }
+
+    IEnumerator OpenFinalGate(float _timer)
+    {
+        yield return new WaitForSeconds(_timer);
+        //Open gate
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(StageController))]
+public class StageControllerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        var myScript = target as StageController;
+
+        if(myScript.isFinalStage)
+        {
+            myScript.finalGate = EditorGUILayout.ObjectField("Final Gate", myScript.finalGate,
+            typeof(GameObject), true) as GameObject;
+        }
+    }
+}
+#endif

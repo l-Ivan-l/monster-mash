@@ -61,8 +61,6 @@ public class MonsterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 120;
-
         forwardDir = Camera.main.transform.forward;
         forwardDir.y = 0;
         forwardDir = Vector3.Normalize(forwardDir);
@@ -93,17 +91,24 @@ public class MonsterScript : MonoBehaviour
 
     void InputProcessing()
     {
-        inputDirection = inputMaster.GameplayActions.Move.ReadValue<Vector2>();
-        Vector3 rightMovement = rightDir * inputDirection.x;
-        Vector3 upMovement = forwardDir * inputDirection.y;
-        movementDirection = Vector3.Normalize(rightMovement + upMovement);
-        movementDirection = Vector3.ClampMagnitude(movementDirection, 1 / Mathf.Sqrt(2)) * Mathf.Sqrt(2);
-
-        if(inputDirection.magnitude > 0 && !stomp)
+        if (!GameController.instance.GameOver)
         {
-            Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
-            transform.forward = Vector3.SmoothDamp(transform.forward, heading, ref turnVelocity, turnSmoothDamp);
+            inputDirection = inputMaster.GameplayActions.Move.ReadValue<Vector2>();
+            Vector3 rightMovement = rightDir * inputDirection.x;
+            Vector3 upMovement = forwardDir * inputDirection.y;
+            movementDirection = Vector3.Normalize(rightMovement + upMovement);
+            movementDirection = Vector3.ClampMagnitude(movementDirection, 1 / Mathf.Sqrt(2)) * Mathf.Sqrt(2);
+
+            if (inputDirection.magnitude > 0 && !stomp)
+            {
+                Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
+                transform.forward = Vector3.SmoothDamp(transform.forward, heading, ref turnVelocity, turnSmoothDamp);
+            }
         } 
+        else
+        {
+            movementDirection = Vector3.zero;
+        }
     }
 
     void MonsterMovement()
@@ -143,9 +148,13 @@ public class MonsterScript : MonoBehaviour
         {
             monsterBody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         } 
-        else if(stomp)
+        else if(stomp && !onExplosion)
         {
             monsterBody.velocity += Vector3.up * Physics.gravity.y * stompSpeed * Time.deltaTime;
+        } 
+        else if(onExplosion)
+        {
+            monsterBody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
     }
 
@@ -167,7 +176,7 @@ public class MonsterScript : MonoBehaviour
 
     void Stomp()
     {
-        if(!stomp && canStomp && !onGround)
+        if(!stomp && canStomp && !onGround && !GameController.instance.GameOver)
         {
             stomp = true;
             canStomp = false;
@@ -183,6 +192,7 @@ public class MonsterScript : MonoBehaviour
 
     void LoseLife()
     {
+        GameController.instance.ScreenShake(0.3f, 1.5f, 1.75f);
         lifes -= 1;
         if(lifes <= 0)
         {
@@ -241,6 +251,11 @@ public class MonsterScript : MonoBehaviour
         {
             LoseLife();
         }
+    }
+
+    public int GetLifes()
+    {
+        return lifes;
     }
 
     private void OnDrawGizmos()

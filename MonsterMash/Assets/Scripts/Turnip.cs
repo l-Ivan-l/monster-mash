@@ -16,12 +16,6 @@ public class Turnip : Vegetable
         ChangeDirection(initDir.normalized);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         TurnipMovement();

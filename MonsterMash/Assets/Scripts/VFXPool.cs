@@ -20,6 +20,16 @@ public class VFXPool : MonoBehaviour
     [SerializeField] private Transform spawnVFXContainer;
     private int spawnVFXPoolLength = 10;
     private List<ParticleSystem> spawnVFXPool = new List<ParticleSystem>();
+    //Explosion VFX
+    [SerializeField] private GameObject explosionVFXPrefab;
+    [SerializeField] private Transform explosionVFXContainer;
+    private int explosionVFXPoolLength = 5;
+    private List<ParticleSystem> explosionVFXPool = new List<ParticleSystem>();
+    //Score Pop-Up
+    [SerializeField] private GameObject scorePopUpPrefab;
+    [SerializeField] private Transform scorePopUpContainer;
+    private int scorePopUpPoolLenght = 8;
+    private List<GameObject> scorePopUpPool = new List<GameObject>();
 
     private void Awake()
     {
@@ -39,6 +49,8 @@ public class VFXPool : MonoBehaviour
         CreateImpactVFXPool();
         CreateVegetableVFXPool();
         CreateSpawnVFXPool();
+        CreateExplosionVFXPool();
+        CreateScorePopUpPool();
     }
 
     void CreateImpactVFXPool()
@@ -74,6 +86,28 @@ public class VFXPool : MonoBehaviour
             spawnRot.eulerAngles = new Vector3(0f, 90f, 0f);
             spawn.gameObject.transform.rotation = spawnRot;
             spawnVFXPool.Add(spawn);
+        }
+    }
+
+    void CreateExplosionVFXPool()
+    {
+        for(int i = 0; i < explosionVFXPoolLength; i++)
+        {
+            ParticleSystem explosion = Instantiate(explosionVFXPrefab, Vector3.zero, Quaternion.identity, explosionVFXContainer).GetComponent<ParticleSystem>();
+            Quaternion expRot = new Quaternion(0f, 0f, 0f, 0f);
+            expRot.eulerAngles = new Vector3(0f, 90f, 0f);
+            explosion.gameObject.transform.rotation = expRot;
+            explosionVFXPool.Add(explosion);
+        }
+    }
+
+    void CreateScorePopUpPool()
+    {
+        for(int i = 0; i < scorePopUpPoolLenght; i++)
+        {
+            GameObject popUp = Instantiate(scorePopUpPrefab, Vector3.zero, Quaternion.identity, scorePopUpContainer);
+            popUp.SetActive(false);
+            scorePopUpPool.Add(popUp);
         }
     }
     //---------------------------------------------------------------------------
@@ -114,5 +148,41 @@ public class VFXPool : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SpawnExplosionVFX(Vector3 _position)
+    {
+        for (int i = 0; i < explosionVFXPool.Count; i++)
+        {
+            if (!explosionVFXPool[i].isPlaying)
+            {
+                explosionVFXPool[i].transform.position = _position;
+                explosionVFXPool[i].Play();
+                break;
+            }
+        }
+    }
+
+    public void SpawnScorePopUp(Vector3 _position, string _scoreText, Color _textColor)
+    {
+        for (int i = 0; i < scorePopUpPool.Count; i++)
+        {
+            if (!scorePopUpPool[i].activeInHierarchy)
+            {
+                scorePopUpPool[i].transform.position = _position;
+                TextMesh popUpText = scorePopUpPool[i].transform.GetChild(0).GetComponent<TextMesh>();
+                popUpText.text = _scoreText;
+                popUpText.color = _textColor;
+                scorePopUpPool[i].SetActive(true);
+                StartCoroutine(DeactivatePopUp(scorePopUpPool[i], 1f));
+                break;
+            }
+        }
+    }
+
+    IEnumerator DeactivatePopUp(GameObject _popUp, float _timer)
+    {
+        yield return new WaitForSeconds(_timer);
+        _popUp.SetActive(false);
     }
 }
