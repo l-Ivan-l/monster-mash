@@ -12,6 +12,8 @@ public class Turnip : Vegetable
     {
         life = 1;
         scoreValue = 8;
+        givesFuel = true;
+        fuelAmount = 18f;
         Vector3 initDir = Random.insideUnitSphere;
         ChangeDirection(initDir.normalized);
     }

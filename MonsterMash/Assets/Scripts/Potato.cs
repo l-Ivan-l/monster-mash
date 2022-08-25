@@ -9,5 +9,7 @@ public class Potato : Vegetable
     {
         life = 1;
         scoreValue = 3;
+        givesFuel = true;
+        fuelAmount = 7f;
     }
 }

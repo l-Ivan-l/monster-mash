@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System;
 using Cinemachine;
+using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class GameController : MonoBehaviour
     public delegate void VegetableDeath();
     public static event VegetableDeath OnVegetableDead;
 
+    private MonsterScript pumpkinManBehavior;
     public GameObject pumpkinMan;
     public GameObject hudPanel;
     public GameObject gameOverPanel;
@@ -51,6 +54,17 @@ public class GameController : MonoBehaviour
     private IEnumerator stopScreenShakeCoroutine;
     private bool screenShakeOn = false;
     public GameObject titleScreenCamera;
+
+    //Stomp Fuel Bar Variables
+    public Image fuelBar;
+    private Gradient fuelGradient;
+    private GradientColorKey[] colorKeys = new GradientColorKey[7];
+    private GradientAlphaKey[] alphaKeys = new GradientAlphaKey[1];
+    public ParticleSystem fuelParticlesUI;
+    private float fuelUIMinEmissionRate = 50f;
+    private float fuelUIMaxEmissionRate = 200f;
+    private float fuelUIMinYVelocity = 0.1f;
+    private float fuelUIMaxYVelocity = 13f;
 
     public int Score
     {
@@ -105,6 +119,7 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        pumpkinManBehavior = pumpkinMan.GetComponent<MonsterScript>();
         comboAnim = comboUI.GetComponent<Animator>();
         comboMessageAnim = comboMessage.GetComponent<Animator>();
         scoreAnim = scoreUI.GetComponent<Animator>();
@@ -119,8 +134,18 @@ public class GameController : MonoBehaviour
         finalTimeUI = gameOverPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         finalLifesUI = gameOverPanel.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         rankUI = gameOverPanel.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-    }
 
+        fuelGradient = new Gradient();
+        colorKeys[0].color = new Color(0.7411765f, 0.2039215862751007f, 0.21568629145622254f);
+        colorKeys[1].color = new Color(0.8784314393997192f, 0.6274510025978088f, 0.3529411852359772f);
+        colorKeys[2].color = new Color(0.8274510502815247f, 0.46666669845581057f, 0.3019607961177826f);
+        colorKeys[3].color = new Color(0.960784375667572f, 0.8705883026123047f, 0.43137258291244509f);
+        colorKeys[4].color = new Color(0.7529412508010864f, 0.2352941334247589f, 0.22745099663734437f);
+        colorKeys[5].color = new Color(0.9098039865493774f, 0.7176470756530762f, 0.38431376218795779f);
+        colorKeys[6].color = new Color(0.7215686440467835f, 0.14509804546833039f, 0.2039215862751007f);
+        alphaKeys[0].alpha = 1.0f;
+        fuelGradient.SetKeys(colorKeys, alphaKeys);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -151,6 +176,16 @@ public class GameController : MonoBehaviour
         virtualCamera_Gameplay.Follow = pumpkinMan.transform;
         hudPanel.SetActive(true);
         timerActive = true;
+        fuelBar.DOGradientColor(fuelGradient, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        UIFuelParticlesChange(1f);
+    }
+
+    void UIFuelParticlesChange(float _fuelBarFillValue)
+    {
+        var emission = fuelParticlesUI.emission;
+        emission.rateOverTime = Mathf.Lerp(fuelUIMinEmissionRate, fuelUIMaxEmissionRate, _fuelBarFillValue);
+        var velocity = fuelParticlesUI.velocityOverLifetime;
+        velocity.y = Mathf.Lerp(fuelUIMinYVelocity, fuelUIMaxYVelocity, _fuelBarFillValue);
     }
 
     void TimerRun()
@@ -230,6 +265,23 @@ public class GameController : MonoBehaviour
         screenShakeOn = false;
     }
 
+    public void GiveStompFuel(float _fuelAmount)
+    {
+        pumpkinManBehavior.stompFuel += _fuelAmount;
+        if(pumpkinManBehavior.stompFuel > pumpkinManBehavior.maxStompFuel)
+        {
+            pumpkinManBehavior.stompFuel = pumpkinManBehavior.maxStompFuel;
+        }
+        UpdateStompUI();
+    }
+
+    public void UpdateStompUI()
+    {
+        float fuelValue = pumpkinManBehavior.stompFuel / pumpkinManBehavior.maxStompFuel;
+        fuelBar.DOFillAmount(fuelValue, 0.3f);
+        UIFuelParticlesChange(fuelValue);
+    }
+
     public void GameFinished()
     {
         timerActive = false;
@@ -257,7 +309,7 @@ public class GameController : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         //Show lifes
-        finalLifesUI.text = "Lifes: " + pumpkinMan.GetComponent<MonsterScript>().GetLifes().ToString();
+        finalLifesUI.text = "Lifes: " + pumpkinManBehavior.GetLifes().ToString();
         finalLifesUI.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);

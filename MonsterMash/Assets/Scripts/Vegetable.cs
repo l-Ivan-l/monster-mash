@@ -6,6 +6,8 @@ public class Vegetable : MonoBehaviour
 {
     protected int life;
     protected int scoreValue;
+    protected bool givesFuel;
+    protected float fuelAmount;
 
     protected Rigidbody vegetableBody;
 
@@ -45,6 +47,10 @@ public class Vegetable : MonoBehaviour
         GameController.instance.ScreenShake(0.3f, 0.75f, 1f);
         GameController.instance.Score += scoreValue;
         GameController.instance.VegetableDeathEvent();
+        if(givesFuel)
+        {
+            GameController.instance.GiveStompFuel(fuelAmount);
+        }
 
         VFXPool.instance.SpawnVegetableVFX(transform.position);
 

@@ -37,6 +37,9 @@ public class MonsterScript : MonoBehaviour
     public float stompSpeed = 200f;
     public ParticleSystem stompVFX;
     private bool canStomp;
+    public float maxStompFuel = 100f;
+    public float stompFuel;
+    private float stompCost = 12f;
 
     private int lifes = 3;
 
@@ -67,6 +70,7 @@ public class MonsterScript : MonoBehaviour
         rightDir = Quaternion.Euler(new Vector3(0, 90, 0)) * forwardDir;
 
         canStomp = true;
+        stompFuel = maxStompFuel;
     }
 
     // Update is called once per frame
@@ -176,10 +180,13 @@ public class MonsterScript : MonoBehaviour
 
     void Stomp()
     {
-        if(!stomp && canStomp && !onGround && !GameController.instance.GameOver)
+        if(!stomp && canStomp && !onGround && !GameController.instance.GameOver && stompFuel >= stompCost)
         {
             stomp = true;
             canStomp = false;
+            stompFuel -= stompCost;
+            GameController.instance.UpdateStompUI();
+            Debug.Log("Stomp fuel left: " + stompFuel);
             stompVFX.Play();
         }
     }
