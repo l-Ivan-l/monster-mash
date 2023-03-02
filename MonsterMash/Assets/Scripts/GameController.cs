@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using Cinemachine;
@@ -10,6 +11,9 @@ using DG.Tweening;
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
+
+    [HideInInspector]
+    public InputMaster inputMaster;
 
     public delegate void VegetableDeath();
     public static event VegetableDeath OnVegetableDead;
@@ -26,6 +30,7 @@ public class GameController : MonoBehaviour
     //Score variables
     private int score;
     public TextMeshProUGUI scoreUI;
+    private RectTransform scoreUIContainer;
     private Animator scoreAnim;
     public AnimationClip scoreAddedClip;
     public AnimationClip scorePenaltyClip;
@@ -65,6 +70,12 @@ public class GameController : MonoBehaviour
     private float fuelUIMaxEmissionRate = 200f;
     private float fuelUIMinYVelocity = 0.1f;
     private float fuelUIMaxYVelocity = 13f;
+    public RectTransform stompFuelIndicator;
+
+    //Lifes variables
+    public GameObject lifesContainer;
+    public GameObject lifeUIPrefab;
+    private List<GameObject> lifes = new List<GameObject>();
 
     public int Score
     {
@@ -108,6 +119,12 @@ public class GameController : MonoBehaviour
         set { currentStage = value; }
     }
 
+    public List<GameObject> Lifes 
+    {
+        get{ return lifes; }
+        set{ lifes = value; }
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -119,12 +136,20 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        inputMaster = new InputMaster();
+        #if UNITY_EDITOR 
+        inputMaster.EditorActions.Reset.performed += _ => Reset();
+        #endif
+
         pumpkinManBehavior = pumpkinMan.GetComponent<MonsterScript>();
         comboAnim = comboUI.GetComponent<Animator>();
         comboMessageAnim = comboMessage.GetComponent<Animator>();
         scoreAnim = scoreUI.GetComponent<Animator>();
+        scoreUIContainer = scoreUI.gameObject.transform.parent.GetComponent<RectTransform>();
 
         virtualCameraNoise = virtualCamera_Gameplay.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        SetupLifes(pumpkinManBehavior.initLifes);
 
         //Until gameplay start
         pumpkinMan.SetActive(false);
@@ -162,6 +187,14 @@ public class GameController : MonoBehaviour
         TimerRun();
     }
 
+    void Reset()
+    {
+        DOTween.KillAll();
+        OnVegetableDead -= currentStage.CheckVegetablesLeft;
+        inputMaster.EditorActions.Reset.performed -= _ => Reset();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void StartGame()
     {
         StartCoroutine(StartGameSequence());
@@ -174,10 +207,80 @@ public class GameController : MonoBehaviour
         pumpkinMan.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         virtualCamera_Gameplay.Follow = pumpkinMan.transform;
+
+        UIAnimationsIn();
         hudPanel.SetActive(true);
         timerActive = true;
-        fuelBar.DOGradientColor(fuelGradient, 0.5f).SetLoops(-1, LoopType.Yoyo);
+    }
+
+    public void SetupLifes(int _nLifes)
+    {
+        for(int i = 0; i < lifesContainer.transform.childCount; i++)
+        {
+            Destroy(lifesContainer.transform.GetChild(i).gameObject); //Destroy previous UI elements that are there for visualization.
+        }
+
+        for(int i = 0; i < _nLifes; i++)
+        {
+            GameObject life = Instantiate(lifeUIPrefab, lifesContainer.transform);
+            lifes.Add(life);
+        }
+    }
+
+    void UIAnimationsIn()
+    {
+        float tweenSpeed = 0.5f;
+
+        float initialLifeScale = lifes[0].transform.localScale.x;
+        foreach(GameObject life in lifes)
+        {
+            life.transform.localScale = Vector3.zero;
+            life.transform.DOScale(initialLifeScale, tweenSpeed);
+            life.transform.DORotate(new Vector3(0, 540, 0), 2f, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Yoyo);
+        }
+
+        float realTimerPosition = timerUI.rectTransform.localPosition.y;
+        Vector3 timerPos = timerUI.rectTransform.localPosition;
+        timerPos.y -= 125f; //Hidden timer position.
+        timerUI.rectTransform.localPosition = timerPos;
+        timerUI.rectTransform.DOLocalMoveY(realTimerPosition, tweenSpeed, true);
+
+        float realScorePosition = scoreUIContainer.localPosition.y;
+        Vector3 scorePos = scoreUIContainer.localPosition;
+        scorePos.y += 160f; //Hidden score position.
+        scoreUIContainer.localPosition = scorePos;
+        scoreUIContainer.DOLocalMoveY(realScorePosition, tweenSpeed, true);
+
+        float realFuelBarPosition = stompFuelIndicator.localPosition.x;
+        Vector3 fuelBarPos = stompFuelIndicator.localPosition;
+        fuelBarPos.x -= 170f; //Hidden stomp fuel bar position.
+        stompFuelIndicator.localPosition = fuelBarPos;
+        stompFuelIndicator.DOLocalMoveX(realFuelBarPosition, tweenSpeed, true);
+
+        fuelBar.DOGradientColor(fuelGradient, tweenSpeed).SetLoops(-1, LoopType.Yoyo);
         UIFuelParticlesChange(1f);
+    }
+
+    void UIAnimationsOut()
+    {
+        float tweenSpeed = 0.7f;
+
+        foreach(GameObject life in lifes)
+        {
+            life.transform.DOScale(0f, tweenSpeed);
+        }
+
+        Vector3 timerPos = timerUI.rectTransform.localPosition;
+        timerPos.y -= 125f; //Hidden timer position.
+        timerUI.rectTransform.DOLocalMoveY(timerPos.y, tweenSpeed, true);
+
+        Vector3 scorePos = scoreUIContainer.localPosition;
+        scorePos.y += 160f; //Hidden score position.
+        scoreUIContainer.DOLocalMoveY(scorePos.y, tweenSpeed, true);
+
+        Vector3 fuelBarPos = stompFuelIndicator.localPosition;
+        fuelBarPos.x -= 170f; //Hidden stomp fuel bar position.
+        stompFuelIndicator.DOLocalMoveX(fuelBarPos.x, tweenSpeed, true);
     }
 
     void UIFuelParticlesChange(float _fuelBarFillValue)
@@ -290,9 +393,10 @@ public class GameController : MonoBehaviour
     public IEnumerator GameOverSequence(GameOverController.Rank _rank)
     {
         //Stop game 
-        hudPanel.SetActive(false);
+        UIAnimationsOut();
         titleScreenCamera.SetActive(true);
         yield return new WaitForSeconds(1.5f);
+        hudPanel.SetActive(false);
         //Show GameOver Panel
         gameOverPanel.SetActive(true);
 

@@ -156,6 +156,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "EditorActions",
+            "id": "7bbaa1da-bb14-46f1-816b-ea7fbede7c85",
+            "actions": [
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "c9b0ce4f-c1d4-4ac7-b08e-f4d2c2f143c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "77ee84d0-b038-49c2-9b89-72e67170d87e",
+                    "path": "<Keyboard>/#(R)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

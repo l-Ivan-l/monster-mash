@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MonsterScript : MonoBehaviour
 {
-    private InputMaster inputMaster;
+    private InputMaster _inputMaster;
 
     //Movement variables
     private Rigidbody monsterBody;
@@ -41,24 +42,31 @@ public class MonsterScript : MonoBehaviour
     public float stompFuel;
     private float stompCost = 12f;
 
-    private int lifes = 3;
+    public int initLifes = 3;
+    private int lifes;
 
     public bool onExplosion;
 
     private void Awake()
     {
-        SetUpInputs();
+        lifes = initLifes;
         monsterBody = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
-        inputMaster.Enable();
+        if(GameController.instance != null)
+        {
+            GameController.instance.inputMaster.Enable();
+            SetUpInputs();
+        }
     }
 
     private void OnDisable()
     {
-        inputMaster.Disable();
+        DisableInputs();
+        if(GameController.instance != null)
+            GameController.instance.inputMaster.Disable();
     }
 
     // Start is called before the first frame update
@@ -89,15 +97,21 @@ public class MonsterScript : MonoBehaviour
 
     void SetUpInputs()
     {
-        inputMaster = new InputMaster();
-        inputMaster.GameplayActions.Stomp.performed += _ => Stomp();
+        _inputMaster = GameController.instance.inputMaster;
+        _inputMaster.GameplayActions.Stomp.performed += _ => Stomp();
+    }
+
+    public void DisableInputs()
+    {
+        if(_inputMaster != null)
+            _inputMaster.GameplayActions.Stomp.performed -= _ => Stomp();
     }
 
     void InputProcessing()
     {
         if (!GameController.instance.GameOver)
         {
-            inputDirection = inputMaster.GameplayActions.Move.ReadValue<Vector2>();
+            inputDirection = _inputMaster.GameplayActions.Move.ReadValue<Vector2>();
             Vector3 rightMovement = rightDir * inputDirection.x;
             Vector3 upMovement = forwardDir * inputDirection.y;
             movementDirection = Vector3.Normalize(rightMovement + upMovement);
@@ -187,7 +201,8 @@ public class MonsterScript : MonoBehaviour
             stompFuel -= stompCost;
             GameController.instance.UpdateStompUI();
             Debug.Log("Stomp fuel left: " + stompFuel);
-            stompVFX.Play();
+            if(stompVFX != null)
+                stompVFX.Play();
         }
     }
 
@@ -201,14 +216,29 @@ public class MonsterScript : MonoBehaviour
     {
         GameController.instance.ScreenShake(0.3f, 1.5f, 1.75f);
         lifes -= 1;
+        StartCoroutine(LoseLifeAnimation());
+
         if(lifes <= 0)
         {
-            //Game Over
+            //Death
         }
         else
         {
             Respawn();
         }
+    }
+
+    IEnumerator LoseLifeAnimation()
+    {
+        GameObject currentLife = GameController.instance.Lifes[GameController.instance.Lifes.Count - 1];
+        Sequence loseLifeSequence = DOTween.Sequence();
+        Vector3 punchStrength = currentLife.transform.localScale * 0.6f;
+        loseLifeSequence.Append(currentLife.transform.DOPunchScale(punchStrength, 0.3f, 10, 1));
+        loseLifeSequence.Append(currentLife.transform.DOScale(Vector3.zero, 0.3f));
+        GameController.instance.Lifes.Remove(currentLife);
+        yield return loseLifeSequence.WaitForKill();
+        loseLifeSequence.Kill();
+        currentLife.SetActive(false);
     }
 
     void Respawn()

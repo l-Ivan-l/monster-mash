@@ -7,7 +7,7 @@ public class GameOverController : MonoBehaviour
     private MonsterScript monster;
     private int bestScore = 2500;
     private float bestTime = 60f * 5; //minutes
-    private int bestLifes = 3;
+    private int bestLifes;
 
     private Rank rank;
     public enum Rank
@@ -23,12 +23,17 @@ public class GameOverController : MonoBehaviour
         D_Minus
     }
 
+    private void Awake()
+    {
+        monster = GameController.instance.pumpkinMan.gameObject.GetComponent<MonsterScript>();
+        bestLifes = monster.initLifes;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player") && !GameController.instance.GameOver)
         {
             Debug.Log("GAME OVER!");
-            monster = other.gameObject.GetComponent<MonsterScript>();
             GameController.instance.GameOver = true;
 
             CalculateRank();

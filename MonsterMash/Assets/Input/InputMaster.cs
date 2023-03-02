@@ -169,6 +169,33 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""EditorActions"",
+            ""id"": ""7bbaa1da-bb14-46f1-816b-ea7fbede7c85"",
+            ""actions"": [
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9b0ce4f-c1d4-4ac7-b08e-f4d2c2f143c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""77ee84d0-b038-49c2-9b89-72e67170d87e"",
+                    ""path"": ""<Keyboard>/#(R)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -200,6 +227,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_GameplayActions = asset.FindActionMap("GameplayActions", throwIfNotFound: true);
         m_GameplayActions_Move = m_GameplayActions.FindAction("Move", throwIfNotFound: true);
         m_GameplayActions_Stomp = m_GameplayActions.FindAction("Stomp", throwIfNotFound: true);
+        // EditorActions
+        m_EditorActions = asset.FindActionMap("EditorActions", throwIfNotFound: true);
+        m_EditorActions_Reset = m_EditorActions.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -286,6 +316,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public GameplayActionsActions @GameplayActions => new GameplayActionsActions(this);
+
+    // EditorActions
+    private readonly InputActionMap m_EditorActions;
+    private IEditorActionsActions m_EditorActionsActionsCallbackInterface;
+    private readonly InputAction m_EditorActions_Reset;
+    public struct EditorActionsActions
+    {
+        private @InputMaster m_Wrapper;
+        public EditorActionsActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Reset => m_Wrapper.m_EditorActions_Reset;
+        public InputActionMap Get() { return m_Wrapper.m_EditorActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(EditorActionsActions set) { return set.Get(); }
+        public void SetCallbacks(IEditorActionsActions instance)
+        {
+            if (m_Wrapper.m_EditorActionsActionsCallbackInterface != null)
+            {
+                @Reset.started -= m_Wrapper.m_EditorActionsActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_EditorActionsActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_EditorActionsActionsCallbackInterface.OnReset;
+            }
+            m_Wrapper.m_EditorActionsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
+            }
+        }
+    }
+    public EditorActionsActions @EditorActions => new EditorActionsActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -308,5 +371,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnStomp(InputAction.CallbackContext context);
+    }
+    public interface IEditorActionsActions
+    {
+        void OnReset(InputAction.CallbackContext context);
     }
 }

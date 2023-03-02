@@ -13,6 +13,7 @@ public class StageController : MonoBehaviour
     public Transform stageSpawn;
 
     private int wavesLeft;
+    [SerializeField]
     private int waveIndex = -1;
     public Transform[] wavesSpawnsContainers;
     private int initVegetablesOnWave;
@@ -70,7 +71,7 @@ public class StageController : MonoBehaviour
         }
     }
 
-    void CheckVegetablesLeft()
+    public void CheckVegetablesLeft()
     {
         vegetablesLeft -= 1;
         if(wavesLeft == 0 && vegetablesLeft == 0)
