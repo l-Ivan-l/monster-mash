@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI timerUI;
 
     private StageController currentStage;
+    private StageController previousStage;
 
     private bool gameOver;
 
@@ -117,6 +118,12 @@ public class GameController : MonoBehaviour
     {
         get { return currentStage; }
         set { currentStage = value; }
+    }
+
+    public StageController PreviousStage
+    {
+        get { return previousStage; }
+        set { previousStage = value; }
     }
 
     public List<GameObject> Lifes 

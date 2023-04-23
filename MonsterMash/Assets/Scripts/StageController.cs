@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,8 +10,13 @@ using UnityEditor;
 public class StageController : MonoBehaviour
 {
     private Collider stageTrigger;
-    public GameObject[] bars;
+    public GameObject fence;
     public Transform stageSpawn;
+    private Vector3 barInitScale;
+    private float barsVelocity = 0.1f;
+    private float barsDelay = 0.05f;
+    private Collider fenceCollider;
+    private GameObject[] fenceBars;
 
     private int wavesLeft;
     [SerializeField]
@@ -26,6 +32,8 @@ public class StageController : MonoBehaviour
     {
         stageTrigger = GetComponent<Collider>();
         wavesLeft = wavesSpawnsContainers.Length;
+        barInitScale = fence.transform.GetChild(0).localScale;
+        InitializeFence();
     }
 
     void StageActive()
@@ -34,13 +42,56 @@ public class StageController : MonoBehaviour
         stageTrigger.enabled = false;
         GameController.instance.CurrentStage = this;
         GameController.OnVegetableDead += CheckVegetablesLeft;
-        //Activate bars
-        for(int i = 0; i < bars.Length; i++)
+        if(GameController.instance.PreviousStage != null)
         {
-            bars[i].SetActive(true);
+            StartCoroutine(GameController.instance.PreviousStage.FenceUp());
         }
+        //Activate fence
+        StartCoroutine(FenceUp());
 
         Invoke("ActivateVegetables", 0.5f);
+    }
+
+    void InitializeFence()
+    {
+        foreach(GameObject bar in GetFenceBars())
+        {
+            Vector3 initScale = bar.transform.localScale;
+            initScale.y = 0f;
+            bar.transform.localScale = initScale;
+        }
+        fenceCollider = fence.GetComponent<Collider>();
+        fenceCollider.enabled = false;
+    }
+
+    GameObject[] GetFenceBars()
+    {
+        fenceBars = new GameObject[fence.transform.childCount];
+        for(int i = 0; i < fence.transform.childCount; i++)
+        {
+            fenceBars[i] = fence.transform.GetChild(i).gameObject;
+        }
+        return fenceBars;
+    }
+
+    public IEnumerator FenceUp()
+    {
+        fenceCollider.enabled = true;
+        foreach(GameObject bar in GetFenceBars())
+        {
+            bar.transform.DOScaleY(barInitScale.y, barsVelocity);
+            yield return new WaitForSeconds(barsDelay);
+        }
+    }
+
+    IEnumerator FenceDown()
+    {
+        foreach(GameObject bar in GetFenceBars())
+        {
+            bar.transform.DOScaleY(0f, barsVelocity);
+            yield return new WaitForSeconds(barsDelay);
+        }
+        fenceCollider.enabled = false;
     }
 
     void ActivateVegetables()
@@ -87,16 +138,17 @@ public class StageController : MonoBehaviour
     public void StageCleared() //All vegetables defeated
     {
         GameController.OnVegetableDead -= CheckVegetablesLeft;
+        GameController.instance.PreviousStage = this;
 
         if(isFinalStage)
         {
             GameController.instance.GameFinished();
             StartCoroutine(OpenFinalGate(GameController.instance.comboAddedClip.length)); //In case there is a combo running.
         }
-        //Deactivate bars
-        for (int i = 0; i < bars.Length; i++)
+        else 
         {
-            bars[i].SetActive(false);
+            //Deactivate fence
+            StartCoroutine(FenceDown());
         }
     }
 
