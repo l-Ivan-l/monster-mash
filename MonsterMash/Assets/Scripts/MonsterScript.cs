@@ -220,7 +220,7 @@ public class MonsterScript : MonoBehaviour
 
         if(lifes <= 0)
         {
-            //Death
+            StartCoroutine(GameController.instance.LoseSequence());
         }
         else
         {

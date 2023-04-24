@@ -27,6 +27,11 @@ public class GameController : MonoBehaviour
     private TextMeshProUGUI finalLifesUI;
     private TextMeshProUGUI rankUI;
 
+    public GameObject losePanel;
+    private TextMeshProUGUI stageUI;
+    private TextMeshProUGUI timeUI;
+    private int stageNumber;
+
     //Score variables
     private int score;
     public TextMeshProUGUI scoreUI;
@@ -132,6 +137,12 @@ public class GameController : MonoBehaviour
         set{ lifes = value; }
     }
 
+    public int StageNumber
+    {
+        get{ return stageNumber; }
+        set{ stageNumber = value; }
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -166,6 +177,9 @@ public class GameController : MonoBehaviour
         finalTimeUI = gameOverPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         finalLifesUI = gameOverPanel.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         rankUI = gameOverPanel.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+
+        stageUI = losePanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        timeUI = losePanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
         fuelGradient = new Gradient();
         colorKeys[0].color = new Color(0.7411765f, 0.2039215862751007f, 0.21568629145622254f);
@@ -204,6 +218,7 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
+        stageNumber = 1;
         StartCoroutine(StartGameSequence());
     }
 
@@ -428,6 +443,25 @@ public class GameController : MonoBehaviour
         rankUI.text = "Rank: " + GetRankString(_rank);
         rankUI.gameObject.SetActive(true);
         //Debug.Log("RANK: " + GetRankString(_rank));
+    }
+
+    public IEnumerator LoseSequence()
+    {
+        UIAnimationsOut();
+        titleScreenCamera.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        hudPanel.SetActive(false);
+        losePanel.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+        stageUI.text = "Stage Reached: " + stageNumber.ToString();
+        stageUI.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+        //Show timer
+        TimeSpan time = TimeSpan.FromSeconds(currentTime);
+        timeUI.text = "Time: " + time.ToString(@"m\:ss");
+        timeUI.gameObject.SetActive(true);
     }
 
     string GetRankString(GameOverController.Rank _rank)

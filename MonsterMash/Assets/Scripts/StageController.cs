@@ -14,7 +14,7 @@ public class StageController : MonoBehaviour
     public Transform stageSpawn;
     private Vector3 barInitScale;
     private float barsVelocity = 0.1f;
-    private float barsDelay = 0.05f;
+    private float barsDelay = 0.025f;
     private Collider fenceCollider;
     private GameObject[] fenceBars;
 
@@ -147,6 +147,7 @@ public class StageController : MonoBehaviour
         }
         else 
         {
+            GameController.instance.StageNumber++;
             //Deactivate fence
             StartCoroutine(FenceDown());
         }
