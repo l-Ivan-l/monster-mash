@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Turnip : Vegetable
 {
@@ -16,6 +17,7 @@ public class Turnip : Vegetable
         fuelAmount = 18f;
         Vector3 initDir = Random.insideUnitSphere;
         ChangeDirection(initDir.normalized);
+        transform.DORotate(new Vector3(0, 540, 0), 0.5f, RotateMode.Fast).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
     }
 
     private void FixedUpdate()

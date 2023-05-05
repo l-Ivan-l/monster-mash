@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Vegetable : MonoBehaviour
 {
@@ -17,20 +18,31 @@ public class Vegetable : MonoBehaviour
     {
         vegetableBody = GetComponent<Rigidbody>();
         initialized = false;
+        transform.localEulerAngles = new Vector3(0f, 125f, 0f);
     }
 
     public virtual void OnEnable()
     {
         if(initialized)
         {
-            //Spawn effect
-            VFXPool.instance.SpawnInstantiateVFX(transform.position);
+            SpawnEffect();
         }
 
         if(!initialized)
         {
             initialized = true;
         }
+    }
+
+    void SpawnEffect()
+    {
+        float originalHeight = transform.localScale.y;
+        Vector3 vegetableScale = transform.localScale;
+        vegetableScale.y = 0f;
+        transform.localScale = vegetableScale;
+        transform.DOScaleY(originalHeight, 0.15f);
+
+        VFXPool.instance.SpawnInstantiateVFX(transform.position);
     }
 
     public void ApplyDamage()
