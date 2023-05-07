@@ -62,7 +62,7 @@ public class Potato : Vegetable
                         {
                             posFound = true;
                             transform.position = newPosition;
-                            SpawnEffect();
+                            RespawnEffect();
                         }
                         else 
                         {
@@ -86,6 +86,17 @@ public class Potato : Vegetable
     void HideEffect()
     {
         transform.DOScaleY(0f, 0.2f);
+        VFXPool.instance.SpawnDirtVFX(transform.position);
+        VFXPool.instance.SpawnHoleVFX(transform.position);
+    }
+
+    void RespawnEffect()
+    {
+        Vector3 vegetableScale = transform.localScale;
+        vegetableScale.y = 0f;
+        transform.localScale = vegetableScale;
+        transform.DOScaleY(originalHeight, 0.2f);
+
         VFXPool.instance.SpawnInstantiateVFX(transform.position);
     }
 

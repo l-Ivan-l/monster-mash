@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class VFXPool : MonoBehaviour
 {
@@ -30,6 +31,17 @@ public class VFXPool : MonoBehaviour
     [SerializeField] private Transform scorePopUpContainer;
     private int scorePopUpPoolLenght = 8;
     private List<GameObject> scorePopUpPool = new List<GameObject>();
+    //Dirt VFX
+    [SerializeField] private GameObject dirtVFXPrefab;
+    [SerializeField] private Transform dirtVFXContainer;
+    private int dirtVFXPoolLength = 7;
+    private List<ParticleSystem> dirtVFXPool = new List<ParticleSystem>();
+    //Hole VFX
+    [SerializeField] private GameObject holeVFXPrefab;
+    [SerializeField] private Transform holeVFXContainer;
+    private int holeVFXPoolLength = 10;
+    private List<GameObject> holeVFXPool = new List<GameObject>();
+    private Vector3 holeOriginalScale;
 
     private void Awake()
     {
@@ -51,6 +63,8 @@ public class VFXPool : MonoBehaviour
         CreateSpawnVFXPool();
         CreateExplosionVFXPool();
         CreateScorePopUpPool();
+        CreateDirtVFXPool();
+        CreateHoleVFXPool();
     }
 
     void CreateImpactVFXPool()
@@ -109,6 +123,29 @@ public class VFXPool : MonoBehaviour
             popUp.SetActive(false);
             scorePopUpPool.Add(popUp);
         }
+    }
+
+    void CreateDirtVFXPool()
+    {
+        for (int i = 0; i < dirtVFXPoolLength; i++)
+        {
+            ParticleSystem dirt = Instantiate(dirtVFXPrefab, Vector3.zero, Quaternion.identity, dirtVFXContainer).GetComponent<ParticleSystem>();
+            Quaternion dirtRot = new Quaternion(0f, 0f, 0f, 0f);
+            dirtRot.eulerAngles = new Vector3(0f, 90f, 0f);
+            dirt.gameObject.transform.rotation = dirtRot;
+            dirtVFXPool.Add(dirt);
+        }
+    }
+
+    void CreateHoleVFXPool()
+    {
+        for (int i = 0; i < holeVFXPoolLength; i++)
+        {
+            GameObject hole = Instantiate(holeVFXPrefab, Vector3.zero, Quaternion.identity, holeVFXContainer);
+            hole.SetActive(false);
+            holeVFXPool.Add(hole);
+        }
+        holeOriginalScale = holeVFXPrefab.transform.localScale;
     }
     //---------------------------------------------------------------------------
     public void SpawnImpactVFX(Vector3 _position)
@@ -178,6 +215,57 @@ public class VFXPool : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SpawnDirtVFX(Vector3 _position)
+    {
+        for (int i = 0; i < dirtVFXPool.Count; i++)
+        {
+            if (!dirtVFXPool[i].isPlaying)
+            {
+                dirtVFXPool[i].transform.position = _position;
+                dirtVFXPool[i].Play();
+                break;
+            }
+        }
+    }
+
+    public void SpawnHoleVFX(Vector3 _position)
+    {
+        for (int i = 0; i < holeVFXPool.Count; i++)
+        {
+            if (!holeVFXPool[i].activeInHierarchy)
+            {
+                _position.y += 0.05f;
+                holeVFXPool[i].transform.position = _position;
+                Quaternion holeRot = new Quaternion(0f, 0f, 0f, 0f);
+                holeRot.eulerAngles = new Vector3(0f, Random.Range(0f, 360f), 0f);
+                holeVFXPool[i].transform.rotation = holeRot;
+                holeVFXPool[i].SetActive(true);
+                HoleSpawnEffect(holeVFXPool[i]);
+                StartCoroutine(RestoreHole(holeVFXPool[i]));
+                break;
+            }
+        }
+    }
+
+    void HoleSpawnEffect(GameObject _hole)
+    {
+        _hole.transform.localScale = Vector3.zero;
+        _hole.transform.DOScale(holeOriginalScale, 0.25f);
+    }
+
+    void HoleHideEffect(GameObject _hole)
+    {
+        _hole.transform.DOScale(Vector3.zero, 1.5f);
+    }
+
+    IEnumerator RestoreHole(GameObject _hole)
+    {
+        yield return new WaitForSeconds(1f);
+        HoleHideEffect(_hole);
+        yield return new WaitForSeconds(1.6f);
+        _hole.SetActive(false);
     }
 
     IEnumerator DeactivatePopUp(GameObject _popUp, float _timer)

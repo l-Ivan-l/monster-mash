@@ -656,6 +656,10 @@ MonoBehaviour:
   explosionVFXContainer: {fileID: 1334640239}
   scorePopUpPrefab: {fileID: 1089675638793147380, guid: 8c0755a34b43d5a41876380eb24ddc58, type: 3}
   scorePopUpContainer: {fileID: 22806884}
+  dirtVFXPrefab: {fileID: 6820601845619289314, guid: 86ddb9fbb601cc94bb5075701899f9e9, type: 3}
+  dirtVFXContainer: {fileID: 74633084}
+  holeVFXPrefab: {fileID: 8137836972707244842, guid: 173d746cd2b30234b81e20b356992d87, type: 3}
+  holeVFXContainer: {fileID: 455998378}
 --- !u!4 &54052654
 Transform:
   m_ObjectHideFlags: 0
@@ -672,8 +676,40 @@ Transform:
   - {fileID: 811803741}
   - {fileID: 1334640239}
   - {fileID: 22806884}
+  - {fileID: 74633084}
+  - {fileID: 455998378}
   m_Father: {fileID: 0}
   m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &74633083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 74633084}
+  m_Layer: 0
+  m_Name: DirtVFXPoolContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &74633084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74633083}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 54052654}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &104385194
 GameObject:
@@ -1439,6 +1475,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438921174}
   m_CullTransparentMesh: 1
+--- !u!1 &455998377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455998378}
+  m_Layer: 0
+  m_Name: HoleVFXPoolContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &455998378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455998377}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 54052654}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &465159980
 GameObject:
   m_ObjectHideFlags: 0
@@ -4162,7 +4228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -199.99995, y: 100}
+  m_AnchoredPosition: {x: -199.99994, y: 100}
   m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1466139094

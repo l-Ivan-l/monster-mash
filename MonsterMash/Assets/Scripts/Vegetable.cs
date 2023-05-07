@@ -13,7 +13,7 @@ public class Vegetable : MonoBehaviour
     protected Rigidbody vegetableBody;
 
     private bool initialized;
-    private float originalHeight;
+    protected float originalHeight;
 
     private void Awake()
     {
