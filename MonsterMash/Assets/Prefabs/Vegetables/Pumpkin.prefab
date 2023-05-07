@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8162980586848025669}
   - component: {fileID: 6245451247033026703}
   - component: {fileID: 5597042646607669595}
+  - component: {fileID: 5093084195888470909}
   m_Layer: 9
   m_Name: Pumpkin
   m_TagString: Vegetable
@@ -95,3 +96,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.27895477
   m_Center: {x: -0.000000029802322, y: 0.28117642, z: 0}
+--- !u!114 &5093084195888470909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597042646607669594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabb1562394baef48a022a217e917f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

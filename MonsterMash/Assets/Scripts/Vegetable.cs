@@ -13,12 +13,14 @@ public class Vegetable : MonoBehaviour
     protected Rigidbody vegetableBody;
 
     private bool initialized;
+    private float originalHeight;
 
     private void Awake()
     {
         vegetableBody = GetComponent<Rigidbody>();
         initialized = false;
         transform.localEulerAngles = new Vector3(0f, 125f, 0f);
+        originalHeight = transform.localScale.y;
     }
 
     public virtual void OnEnable()
@@ -34,9 +36,8 @@ public class Vegetable : MonoBehaviour
         }
     }
 
-    void SpawnEffect()
+    protected void SpawnEffect()
     {
-        float originalHeight = transform.localScale.y;
         Vector3 vegetableScale = transform.localScale;
         vegetableScale.y = 0f;
         transform.localScale = vegetableScale;

@@ -21,6 +21,11 @@ public class VegetablesPool : MonoBehaviour
     [SerializeField] private Transform potatoesContainer;
     private List<GameObject> potatoesPool = new List<GameObject>();
 
+    private int pumpkinsPoolLenght = 10;
+    [SerializeField] private GameObject pumpkinPrefab;
+    [SerializeField] private Transform pumpkinsContainer;
+    private List<GameObject> pumpkinsPool = new List<GameObject>();
+
     private void Awake()
     {
         if (instance == null)
@@ -39,6 +44,7 @@ public class VegetablesPool : MonoBehaviour
         CreateTurnipsPool();
         CreateEggPlantsPool();
         CreatePotatoesPool();
+        CreatePumpkinsPool();
     }
 
     void CreateTurnipsPool()
@@ -71,6 +77,16 @@ public class VegetablesPool : MonoBehaviour
         }
     }
 
+    void CreatePumpkinsPool()
+    {
+        for (int i = 0; i < pumpkinsPoolLenght; i++)
+        {
+            GameObject pumpkin = Instantiate(pumpkinPrefab, pumpkinsContainer);
+            pumpkin.SetActive(false);
+            pumpkinsPool.Add(pumpkin);
+        }
+    }
+
     //---------------------------------------------------------------------------
     public void SpawnTurnip(Vector3 _position)
     {
@@ -98,14 +114,28 @@ public class VegetablesPool : MonoBehaviour
         }
     }
 
-    public void SpawnPotato(Vector3 _position)
+    public void SpawnPotato(Vector3 _position, GameObject fence)
     {
         for (int i = 0; i < potatoesPool.Count; i++)
         {
             if (!potatoesPool[i].activeInHierarchy)
             {
                 potatoesPool[i].transform.position = _position;
+                potatoesPool[i].GetComponent<Potato>().SetCurrentFence(fence);
                 potatoesPool[i].SetActive(true);
+                break;
+            }
+        }
+    }
+
+    public void SpawnPumpkin(Vector3 _position)
+    {
+        for (int i = 0; i < pumpkinsPool.Count; i++)
+        {
+            if (!pumpkinsPool[i].activeInHierarchy)
+            {
+                pumpkinsPool[i].transform.position = _position;
+                pumpkinsPool[i].SetActive(true);
                 break;
             }
         }

@@ -116,7 +116,11 @@ public class StageController : MonoBehaviour
                     break;
 
                 case "PotatoSpawn":
-                    VegetablesPool.instance.SpawnPotato(spawner.position);
+                    VegetablesPool.instance.SpawnPotato(spawner.position, fence);
+                    break;
+
+                case "PumpkinSpawn":
+                    VegetablesPool.instance.SpawnPumpkin(spawner.position);
                     break;
             }
         }

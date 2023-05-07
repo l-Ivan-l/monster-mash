@@ -109,3 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8762d28e7cb70c4db84fe153e9698a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  respawnDetectorLayer:
+    serializedVersion: 2
+    m_Bits: 777
