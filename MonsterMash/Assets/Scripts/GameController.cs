@@ -199,7 +199,7 @@ public class GameController : MonoBehaviour
         Application.targetFrameRate = 120;
         gameOver = false;
         timerActive = false;
-        StartGame();
+        //StartGame();
     }
 
     // Update is called once per frame
@@ -225,14 +225,16 @@ public class GameController : MonoBehaviour
     IEnumerator StartGameSequence()
     {
         titleScreenCamera.SetActive(false);
-        yield return new WaitForSeconds(2.5f);
-        pumpkinMan.SetActive(true);
         yield return new WaitForSeconds(0.5f);
+        pumpkinMan.SetActive(true);
+        yield return new WaitForSeconds(0.4f);
         virtualCamera_Gameplay.Follow = pumpkinMan.transform;
 
         UIAnimationsIn();
         hudPanel.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
         timerActive = true;
+        pumpkinManBehavior.EnableMovement();
     }
 
     public void SetupLifes(int _nLifes)

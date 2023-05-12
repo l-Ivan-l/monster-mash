@@ -8,6 +8,7 @@ public class MonsterScript : MonoBehaviour
     private InputMaster _inputMaster;
 
     //Movement variables
+    private bool canMove;
     private Rigidbody monsterBody;
     public float moveSpeed = 5f;
     private Vector3 inputDirection;
@@ -72,12 +73,6 @@ public class MonsterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        forwardDir = Camera.main.transform.forward;
-        forwardDir.y = 0;
-        forwardDir = Vector3.Normalize(forwardDir);
-        rightDir = Quaternion.Euler(new Vector3(0, 90, 0)) * forwardDir;
-
-        canStomp = true;
         stompFuel = maxStompFuel;
     }
 
@@ -95,6 +90,16 @@ public class MonsterScript : MonoBehaviour
         CheckPogoFloorProximity();
     }
 
+    public void EnableMovement()
+    {
+        forwardDir = Camera.main.transform.forward;
+        forwardDir.y = 0;
+        forwardDir = Vector3.Normalize(forwardDir);
+        rightDir = Quaternion.Euler(new Vector3(0, 90, 0)) * forwardDir;
+        canMove = true;
+        canStomp = true;
+    }
+
     void SetUpInputs()
     {
         _inputMaster = GameController.instance.inputMaster;
@@ -109,7 +114,7 @@ public class MonsterScript : MonoBehaviour
 
     void InputProcessing()
     {
-        if (!GameController.instance.GameOver)
+        if (!GameController.instance.GameOver && canMove)
         {
             inputDirection = _inputMaster.GameplayActions.Move.ReadValue<Vector2>();
             Vector3 rightMovement = rightDir * inputDirection.x;
