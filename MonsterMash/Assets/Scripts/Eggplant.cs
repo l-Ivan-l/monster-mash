@@ -7,12 +7,20 @@ public class Eggplant : Vegetable
     private float explosionForce = 2000f;
     private float explosionRadius = 15f;
     private Vector3 explosionPosition;
-    private float explosionTime = 5f;
+    private float explosionTime = 6f;
     private int explosionPenalty = 50;
+
+    private Material eggplantMaterial;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        eggplantMaterial = GetComponent<Renderer>().material;
+    }
 
     void Start()
     {
-        life = 1;
         scoreValue = 20;
     }
 
@@ -20,6 +28,8 @@ public class Eggplant : Vegetable
     {
         base.OnEnable();
 
+        eggplantMaterial.color = Color.white;
+        vegetableAnim.speed = 1f;
         explosionPosition = transform.position;
         StartCoroutine(EggplantExplode());
     }
@@ -29,9 +39,27 @@ public class Eggplant : Vegetable
         StopAllCoroutines();
     }
 
+    IEnumerator Blink()
+    {
+        float blinkTime = 0.1f;
+        while(gameObject.activeInHierarchy)
+        {
+            yield return new WaitForSeconds(blinkTime);
+            eggplantMaterial.color = Color.red;
+            yield return new WaitForSeconds(blinkTime);
+            eggplantMaterial.color = Color.white;
+
+            blinkTime -= 0.003f;
+            vegetableAnim.speed += 0.5f;
+        }
+    }
+
     IEnumerator EggplantExplode()
     {
-        yield return new WaitForSeconds(explosionTime);
+        float blinkingTime = explosionTime / 3f;
+        yield return new WaitForSeconds(explosionTime - blinkingTime);
+        StartCoroutine(Blink());
+        yield return new WaitForSeconds(blinkingTime);
         Debug.Log("EXPLOSION!");
 
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);

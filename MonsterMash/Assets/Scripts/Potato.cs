@@ -17,7 +17,6 @@ public class Potato : Vegetable
     // Start is called before the first frame update
     void Start()
     {
-        life = 1;
         scoreValue = 5;
         givesFuel = true;
         fuelAmount = 7f;
@@ -85,6 +84,7 @@ public class Potato : Vegetable
 
     void HideEffect()
     {
+        vegetableAnim.SetBool("Spin", true);
         transform.DOScaleY(0f, 0.2f);
         VFXPool.instance.SpawnDirtVFX(transform.position);
         VFXPool.instance.SpawnHoleVFX(transform.position);
@@ -95,9 +95,9 @@ public class Potato : Vegetable
         Vector3 vegetableScale = transform.localScale;
         vegetableScale.y = 0f;
         transform.localScale = vegetableScale;
-        transform.DOScaleY(originalHeight, 0.2f);
+        transform.DOScaleY(originalHeight, 0.2f).OnComplete(()=> vegetableAnim.SetBool("Spin", false));
 
-        VFXPool.instance.SpawnInstantiateVFX(transform.position);
+        VFXPool.instance.SpawnDirtVFX(transform.position);
     }
 
     private Vector3 GetRandomPosition()

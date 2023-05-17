@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Vegetable : MonoBehaviour
 {
-    protected int life;
+    private int life;
     protected int scoreValue;
     protected bool givesFuel;
     protected float fuelAmount;
@@ -14,10 +14,12 @@ public class Vegetable : MonoBehaviour
 
     private bool initialized;
     protected float originalHeight;
+    protected Animator vegetableAnim;
 
-    private void Awake()
+    public virtual void Awake()
     {
         vegetableBody = GetComponent<Rigidbody>();
+        vegetableAnim = GetComponent<Animator>();
         initialized = false;
         transform.localEulerAngles = new Vector3(0f, 125f, 0f);
         originalHeight = transform.localScale.y;
@@ -34,6 +36,8 @@ public class Vegetable : MonoBehaviour
         {
             initialized = true;
         }
+
+        life = 1;
     }
 
     protected void SpawnEffect()
@@ -49,7 +53,7 @@ public class Vegetable : MonoBehaviour
     public void ApplyDamage()
     {
         life -= 1;
-        if(life <= 0)
+        if(life == 0)
         {
             Die();
         }
