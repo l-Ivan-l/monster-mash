@@ -15,6 +15,12 @@ public class CustomButton : MonoBehaviour, ISelectHandler, IDeselectHandler
         buttonText = transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
     }
 
+    private void OnEnable()
+    {
+        selector.SetActive(false);
+        buttonText.color = Color.white;
+    }
+
     public void OnSelect(BaseEventData eventData)
     {
         selector.SetActive(true);

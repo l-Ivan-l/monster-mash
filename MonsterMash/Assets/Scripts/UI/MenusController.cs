@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenusController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class MenusController : MonoBehaviour
     public GameObject titleButtonsPanel;
     private Animator titleButtonsAnimator;
     public List<Button> titleButtons = new List<Button>();
+    public Button backBtn;
 
     public GameObject creditsPanel;
 
@@ -20,6 +22,7 @@ public class MenusController : MonoBehaviour
 
     public void GameStarted()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         titleAnimator.SetBool("TitleOut", true);
         titleButtonsAnimator.SetBool("TitleOut", true);
         foreach(Button btn in titleButtons)
@@ -32,6 +35,27 @@ public class MenusController : MonoBehaviour
     {
         titleButtonsPanel.SetActive(false);
         creditsPanel.SetActive(true);
+        EnableBackButton();
+    }
+
+    public void Back()
+    {
+        titleButtonsPanel.SetActive(true);
+        creditsPanel.SetActive(false);
+        DisableBackButton();
+        titleButtons[0].Select();
+    }
+
+    void EnableBackButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        backBtn.gameObject.SetActive(true);
+        backBtn.Select();
+    }
+
+    void DisableBackButton()
+    {
+        backBtn.gameObject.SetActive(false);
     }
 
     public void QuitGame()
