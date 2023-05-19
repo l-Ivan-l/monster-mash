@@ -16,6 +16,8 @@ public class Vegetable : MonoBehaviour
     protected float originalHeight;
     protected Animator vegetableAnim;
 
+    public AudioClip squashSound;
+
     public virtual void Awake()
     {
         vegetableBody = GetComponent<Rigidbody>();
@@ -61,6 +63,7 @@ public class Vegetable : MonoBehaviour
 
     void Die()
     {
+        SoundManager.instance.PlaySoundEffect(squashSound, 0.5f);
         GameController.instance.ScreenShake(0.3f, 0.75f, 1f);
         GameController.instance.Score += scoreValue;
         GameController.instance.VegetableDeathEvent();

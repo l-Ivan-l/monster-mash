@@ -11,6 +11,8 @@ public class Eggplant : Vegetable
     private int explosionPenalty = 50;
 
     private Material eggplantMaterial;
+    public AudioClip beepSound;
+    public AudioClip explosionSound;
 
     public override void Awake()
     {
@@ -46,6 +48,7 @@ public class Eggplant : Vegetable
         {
             yield return new WaitForSeconds(blinkTime);
             eggplantMaterial.color = Color.red;
+            SoundManager.instance.PlaySoundEffect(beepSound, 0.5f);
             yield return new WaitForSeconds(blinkTime);
             eggplantMaterial.color = Color.white;
 
@@ -61,7 +64,7 @@ public class Eggplant : Vegetable
         StartCoroutine(Blink());
         yield return new WaitForSeconds(blinkingTime);
         Debug.Log("EXPLOSION!");
-
+        SoundManager.instance.PlaySoundEffect(explosionSound, 1f);
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
         foreach (Collider hit in colliders)
         {

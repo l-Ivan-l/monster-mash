@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 5091693036888916743}
   - component: {fileID: 5091693036888916745}
   - component: {fileID: 5091693036888916742}
+  - component: {fileID: 2770610671955392152}
   m_Layer: 3
   m_Name: Pumpkinman
   m_TagString: Player
@@ -519,7 +520,32 @@ MonoBehaviour:
   pogo: {fileID: 5091693037086777485}
   stompSpeed: 200
   stompVFX: {fileID: 1733594394480242608}
+  maxStompFuel: 100
+  stompFuel: 0
+  initLifes: 3
   onExplosion: 0
+  pogoJumpSound: {fileID: 8300000, guid: d837623e3f1b8c340998b62c9305ab7f, type: 3}
+  hitVegetableSound: {fileID: 8300000, guid: c562cb5fcb9c35d47800a1868de14b42, type: 3}
+  stompSound: {fileID: 8300000, guid: 015078e361161f446a6a7048d42559b7, type: 3}
+  loseLifeSound: {fileID: 8300000, guid: 5ef655ff2c616de4385514f09b0295ac, type: 3}
+--- !u!114 &2770610671955392152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091693036888916741}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &5091693036920148134
 GameObject:
   m_ObjectHideFlags: 0

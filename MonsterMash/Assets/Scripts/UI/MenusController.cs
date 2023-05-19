@@ -15,6 +15,9 @@ public class MenusController : MonoBehaviour
 
     public GameObject creditsPanel;
 
+    public AudioClip gameStartSound;
+    public AudioClip buttonSound;
+
     private void Awake()
     {
         titleButtonsAnimator = titleButtonsPanel.GetComponent<Animator>();
@@ -22,6 +25,7 @@ public class MenusController : MonoBehaviour
 
     public void GameStarted()
     {
+        SoundManager.instance.PlayUXSoundEffect(gameStartSound, 1f);
         EventSystem.current.SetSelectedGameObject(null);
         titleAnimator.SetBool("TitleOut", true);
         titleButtonsAnimator.SetBool("TitleOut", true);
@@ -56,6 +60,11 @@ public class MenusController : MonoBehaviour
     void DisableBackButton()
     {
         backBtn.gameObject.SetActive(false);
+    }
+
+    public void PlayButtonSound()
+    {
+        SoundManager.instance.PlayUXSoundEffect(buttonSound, 1f);
     }
 
     public void QuitGame()

@@ -83,6 +83,12 @@ public class GameController : MonoBehaviour
     public GameObject lifeUIPrefab;
     private List<GameObject> lifes = new List<GameObject>();
 
+    //Sound variables
+    public AudioClip comboCountSound;
+    public AudioClip comboAddedSound;
+    public AudioClip winSound;
+    public AudioClip gameOverSound;
+
     public int Score
     {
         get { return score; }
@@ -353,6 +359,7 @@ public class GameController : MonoBehaviour
         {
             comboUI.text = "COMBO x" + currentCombo.ToString();
             comboAnim.Play(comboAddedClip.name, -1, 0f);
+            SoundManager.instance.PlayUXSoundEffect(comboCountSound, 0.1f);
         }
         yield return new WaitForSeconds(comboAddedClip.length);
         if(currentCombo > 1)
@@ -363,6 +370,7 @@ public class GameController : MonoBehaviour
             comboMessageAnim.Play(messageShowClip.name);
             //Add combo score
             Score += comboScore;
+            SoundManager.instance.PlayUXSoundEffect(comboAddedSound, 1f);
             //Debug.Log("COMBO x" + currentCombo + "ADDED!");
         }
         currentCombo = 0;
@@ -419,6 +427,7 @@ public class GameController : MonoBehaviour
         //Stop game 
         UIAnimationsOut();
         titleScreenCamera.SetActive(true);
+        SoundManager.instance.PlayUXSoundEffect(winSound, 1f);
         yield return new WaitForSeconds(1.5f);
         hudPanel.SetActive(false);
         //Show GameOver Panel
@@ -451,6 +460,7 @@ public class GameController : MonoBehaviour
     {
         UIAnimationsOut();
         titleScreenCamera.SetActive(true);
+        SoundManager.instance.PlayUXSoundEffect(gameOverSound, 1f);
         yield return new WaitForSeconds(1.5f);
         hudPanel.SetActive(false);
         losePanel.SetActive(true);

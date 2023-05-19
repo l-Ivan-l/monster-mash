@@ -48,6 +48,12 @@ public class MonsterScript : MonoBehaviour
 
     public bool onExplosion;
 
+    //Audio variables
+    public AudioClip pogoJumpSound;
+    public AudioClip hitVegetableSound;
+    public AudioClip stompSound;
+    public AudioClip loseLifeSound;
+
     private void Awake()
     {
         lifes = initLifes;
@@ -161,6 +167,7 @@ public class MonsterScript : MonoBehaviour
 
     void MonsterJump(float _jumpForce)
     {
+        SoundManager.instance.PlayCharacterSoundEffect(pogoJumpSound, 0.25f);
         monsterBody.velocity = new Vector2(monsterBody.velocity.x, 0);
         monsterBody.velocity += Vector3.up * _jumpForce;
     }
@@ -201,6 +208,7 @@ public class MonsterScript : MonoBehaviour
     {
         if(!stomp && canStomp && !onGround && !GameController.instance.GameOver && stompFuel >= stompCost)
         {
+            SoundManager.instance.PlayCharacterSoundEffect(stompSound, 1f);
             stomp = true;
             canStomp = false;
             stompFuel -= stompCost;
@@ -219,6 +227,7 @@ public class MonsterScript : MonoBehaviour
 
     void LoseLife()
     {
+        SoundManager.instance.PlayUXSoundEffect(loseLifeSound, 1f);
         GameController.instance.ScreenShake(0.3f, 1.5f, 1.75f);
         lifes -= 1;
         StartCoroutine(LoseLifeAnimation());
@@ -273,6 +282,7 @@ public class MonsterScript : MonoBehaviour
             VFXPool.instance.SpawnImpactVFX(transform.position + contactOffset);
             if(collision.gameObject.CompareTag("Vegetable"))
             {
+                SoundManager.instance.PlayCharacterSoundEffect(hitVegetableSound, 0.5f);
                 collision.gameObject.GetComponent<Vegetable>().ApplyDamage();
             }
         }

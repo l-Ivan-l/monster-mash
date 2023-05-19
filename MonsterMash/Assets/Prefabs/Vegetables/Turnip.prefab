@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1774049866486540896}
   - component: {fileID: 260729960391363506}
   - component: {fileID: 260729960391363504}
-  - component: {fileID: 260729960391363507}
   - component: {fileID: 865812031582969541}
+  - component: {fileID: 260729960391363507}
   m_Layer: 9
   m_Name: Turnip
   m_TagString: Vegetable
@@ -115,18 +115,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &260729960391363507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260729960391363509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fa1ece3e585d3248b6d085e1754f63f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &865812031582969541
 Animator:
   serializedVersion: 3
@@ -146,3 +134,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &260729960391363507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260729960391363509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa1ece3e585d3248b6d085e1754f63f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  squashSound: {fileID: 8300000, guid: d26c67365ad66954091b3fa0778d36a3, type: 3}

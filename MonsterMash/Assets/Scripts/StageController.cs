@@ -14,7 +14,7 @@ public class StageController : MonoBehaviour
     public Transform stageSpawn;
     private Vector3 barInitScale;
     private float barsVelocity = 0.1f;
-    private float barsDelay = 0.025f;
+    private float barsDelay = 0.05f;
     private Collider fenceCollider;
     private GameObject[] fenceBars;
 
@@ -27,6 +27,7 @@ public class StageController : MonoBehaviour
 
     public bool isFinalStage;
     [HideInInspector]public GameObject finalGate;
+    public AudioClip fenceBarUpSound;
 
     private void Awake()
     {
@@ -77,18 +78,32 @@ public class StageController : MonoBehaviour
     public IEnumerator FenceUp()
     {
         fenceCollider.enabled = true;
+        int soundCheck = 2;
         foreach(GameObject bar in GetFenceBars())
         {
+            if(soundCheck == 2) //Every 2 bars
+            {
+                soundCheck = 0;
+                SoundManager.instance.PlayAmbienceSoundEffect(fenceBarUpSound, 0.5f);
+            }
             bar.transform.DOScaleY(barInitScale.y, barsVelocity);
+            soundCheck++;
             yield return new WaitForSeconds(barsDelay);
         }
     }
 
     IEnumerator FenceDown()
     {
+        int soundCheck = 2;
         foreach(GameObject bar in GetFenceBars())
         {
+            if(soundCheck == 2) //Every 2 bars
+            {
+                soundCheck = 0;
+                SoundManager.instance.PlayAmbienceSoundEffect(fenceBarUpSound, 0.5f);
+            }
             bar.transform.DOScaleY(0f, barsVelocity);
+            soundCheck++;
             yield return new WaitForSeconds(barsDelay);
         }
         fenceCollider.enabled = false;

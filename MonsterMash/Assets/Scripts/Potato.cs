@@ -14,6 +14,9 @@ public class Potato : Vegetable
     private Vector3 checkCollisionGizmoPos = Vector3.zero;
     private GameObject currentFence;
 
+    public AudioClip hideSound;
+    public AudioClip resurfaceSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +91,7 @@ public class Potato : Vegetable
         transform.DOScaleY(0f, 0.2f);
         VFXPool.instance.SpawnDirtVFX(transform.position);
         VFXPool.instance.SpawnHoleVFX(transform.position);
+        SoundManager.instance.PlaySoundEffect(hideSound, 0.5f);
     }
 
     void RespawnEffect()
@@ -98,6 +102,7 @@ public class Potato : Vegetable
         transform.DOScaleY(originalHeight, 0.2f).OnComplete(()=> vegetableAnim.SetBool("Spin", false));
 
         VFXPool.instance.SpawnDirtVFX(transform.position);
+        SoundManager.instance.PlaySoundEffect(resurfaceSound, 0.5f);
     }
 
     private Vector3 GetRandomPosition()
