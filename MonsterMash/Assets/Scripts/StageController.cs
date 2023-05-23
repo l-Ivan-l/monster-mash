@@ -27,7 +27,9 @@ public class StageController : MonoBehaviour
 
     public bool isFinalStage;
     [HideInInspector]public GameObject finalGate;
+    [HideInInspector]public AudioClip gateOpenSound;
     public AudioClip fenceBarUpSound;
+    public AudioClip spawnSound;
 
     private void Awake()
     {
@@ -115,6 +117,7 @@ public class StageController : MonoBehaviour
         waveIndex++;
         vegetablesLeft += wavesSpawnsContainers[waveIndex].childCount;
         initVegetablesOnWave = vegetablesLeft;
+        SoundManager.instance.PlayAmbienceSoundEffect(spawnSound, 1f);
 
         for (int i = 0; i < wavesSpawnsContainers[waveIndex].childCount; i++)
         {
@@ -184,6 +187,8 @@ public class StageController : MonoBehaviour
     {
         yield return new WaitForSeconds(_timer);
         //Open gate
+        SoundManager.instance.PlayAmbienceSoundEffect(gateOpenSound, 1f);
+        finalGate.GetComponent<Animator>().enabled = true;
     }
 }
 
@@ -201,6 +206,8 @@ public class StageControllerEditor : Editor
         {
             myScript.finalGate = EditorGUILayout.ObjectField("Final Gate", myScript.finalGate,
             typeof(GameObject), true) as GameObject;
+            myScript.gateOpenSound = EditorGUILayout.ObjectField("Gate Open Sound", myScript.gateOpenSound,
+            typeof(AudioClip), true) as AudioClip;
         }
     }
 }

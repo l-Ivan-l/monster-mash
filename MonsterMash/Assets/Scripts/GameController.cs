@@ -428,12 +428,14 @@ public class GameController : MonoBehaviour
         UIAnimationsOut();
         titleScreenCamera.SetActive(true);
         SoundManager.instance.PlayUXSoundEffect(winSound, 1f);
+        pumpkinManBehavior.TurnOffMonster();
         yield return new WaitForSeconds(1.5f);
         hudPanel.SetActive(false);
         //Show GameOver Panel
         gameOverPanel.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
+        pumpkinMan.SetActive(false);
         //Show score
         finalScoreUI.text = "Score: " + score.ToString();
         finalScoreUI.gameObject.SetActive(true);

@@ -310,6 +310,13 @@ public class MonsterScript : MonoBehaviour
         return lifes;
     }
 
+    public void TurnOffMonster()
+    {
+        monsterBody.useGravity = false;
+        canMove = false;
+        canStomp = false;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
