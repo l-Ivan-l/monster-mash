@@ -21,15 +21,18 @@ public class GameController : MonoBehaviour
     private MonsterScript pumpkinManBehavior;
     public GameObject pumpkinMan;
     public GameObject hudPanel;
-    public GameObject gameOverPanel;
+    public GameObject winPanel;
+    public GameObject winVisuals;
     private TextMeshProUGUI finalScoreUI;
     private TextMeshProUGUI finalTimeUI;
     private TextMeshProUGUI finalLifesUI;
     private TextMeshProUGUI rankUI;
+    private Button returnFromWinBtn;
 
     public GameObject losePanel;
     private TextMeshProUGUI stageUI;
     private TextMeshProUGUI timeUI;
+    private Button returnFromLoseBtn;
     private int stageNumber;
 
     //Score variables
@@ -179,13 +182,15 @@ public class GameController : MonoBehaviour
         pumpkinMan.SetActive(false);
         hudPanel.SetActive(false);
 
-        finalScoreUI = gameOverPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        finalTimeUI = gameOverPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        finalLifesUI = gameOverPanel.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
-        rankUI = gameOverPanel.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        finalScoreUI = winPanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        finalTimeUI = winPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        finalLifesUI = winPanel.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        rankUI = winPanel.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        returnFromWinBtn = winPanel.transform.GetChild(5).GetComponent<Button>();
 
         stageUI = losePanel.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         timeUI = losePanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        returnFromLoseBtn = losePanel.transform.GetChild(3).GetComponent<Button>();
 
         fuelGradient = new Gradient();
         colorKeys[0].color = new Color(0.7411765f, 0.2039215862751007f, 0.21568629145622254f);
@@ -214,7 +219,7 @@ public class GameController : MonoBehaviour
         TimerRun();
     }
 
-    void Reset()
+    public void Reset()
     {
         DOTween.KillAll();
         OnVegetableDead -= currentStage.CheckVegetablesLeft;
@@ -426,13 +431,14 @@ public class GameController : MonoBehaviour
     {
         //Stop game 
         UIAnimationsOut();
+        winVisuals.SetActive(true);
         titleScreenCamera.SetActive(true);
         SoundManager.instance.PlayUXSoundEffect(winSound, 1f);
         pumpkinManBehavior.TurnOffMonster();
         yield return new WaitForSeconds(1.5f);
         hudPanel.SetActive(false);
         //Show GameOver Panel
-        gameOverPanel.SetActive(true);
+        winPanel.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
         pumpkinMan.SetActive(false);
@@ -455,6 +461,9 @@ public class GameController : MonoBehaviour
         //Show rank
         rankUI.text = "Rank: " + GetRankString(_rank);
         rankUI.gameObject.SetActive(true);
+
+        returnFromWinBtn.gameObject.SetActive(true);
+        returnFromWinBtn.Select();
         //Debug.Log("RANK: " + GetRankString(_rank));
     }
 
@@ -476,6 +485,9 @@ public class GameController : MonoBehaviour
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
         timeUI.text = "Time: " + time.ToString(@"m\:ss");
         timeUI.gameObject.SetActive(true);
+
+        returnFromLoseBtn.gameObject.SetActive(true);
+        returnFromLoseBtn.Select();
     }
 
     string GetRankString(GameOverController.Rank _rank)
