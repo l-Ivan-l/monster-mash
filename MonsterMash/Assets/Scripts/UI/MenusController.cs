@@ -14,6 +14,7 @@ public class MenusController : MonoBehaviour
     public Button backBtn;
 
     public GameObject creditsPanel;
+    public GameObject instructionsPanel;
 
     public AudioClip gameStartSound;
     public AudioClip buttonSound;
@@ -42,10 +43,18 @@ public class MenusController : MonoBehaviour
         EnableBackButton();
     }
 
+    public void SeeInstructions()
+    {
+        titleButtonsPanel.SetActive(false);
+        instructionsPanel.SetActive(true);
+        EnableBackButton();
+    }
+
     public void Back()
     {
         titleButtonsPanel.SetActive(true);
         creditsPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
         DisableBackButton();
         titleButtons[0].Select();
     }

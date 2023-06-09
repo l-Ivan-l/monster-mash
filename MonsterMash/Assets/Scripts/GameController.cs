@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     private Button returnFromWinBtn;
 
     public GameObject losePanel;
+    public GameObject loseVisuals;
     private TextMeshProUGUI stageUI;
     private TextMeshProUGUI timeUI;
     private Button returnFromLoseBtn;
@@ -470,6 +471,7 @@ public class GameController : MonoBehaviour
     public IEnumerator LoseSequence()
     {
         UIAnimationsOut();
+        loseVisuals.SetActive(true);
         titleScreenCamera.SetActive(true);
         SoundManager.instance.PlayUXSoundEffect(gameOverSound, 1f);
         yield return new WaitForSeconds(1.5f);

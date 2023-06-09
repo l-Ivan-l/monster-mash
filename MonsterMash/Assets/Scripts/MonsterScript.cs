@@ -299,7 +299,7 @@ public class MonsterScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Death"))
+        if(other.gameObject.CompareTag("Death") && !GameController.instance.GameOver)
         {
             LoseLife();
         }
