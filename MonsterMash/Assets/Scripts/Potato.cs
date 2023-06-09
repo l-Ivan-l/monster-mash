@@ -88,7 +88,7 @@ public class Potato : Vegetable
     void HideEffect()
     {
         vegetableAnim.SetBool("Spin", true);
-        transform.DOScaleY(0f, 0.2f);
+        transform.DOScaleY(0f, 0.2f).OnComplete(()=> transform.localScale = Vector3.zero);
         VFXPool.instance.SpawnDirtVFX(transform.position);
         VFXPool.instance.SpawnHoleVFX(transform.position);
         SoundManager.instance.PlaySoundEffect(hideSound, 0.5f);
@@ -97,6 +97,8 @@ public class Potato : Vegetable
     void RespawnEffect()
     {
         Vector3 vegetableScale = transform.localScale;
+        vegetableScale.x = originalHeight;
+        vegetableScale.z = originalHeight;
         vegetableScale.y = 0f;
         transform.localScale = vegetableScale;
         transform.DOScaleY(originalHeight, 0.2f).OnComplete(()=> vegetableAnim.SetBool("Spin", false));
