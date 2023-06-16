@@ -2283,7 +2283,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50, y: 20, z: 0.5}
+  m_Size: {x: 50, y: 40, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &61111695
 PrefabInstance:
@@ -4020,7 +4020,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 40, y: 20, z: 0.5}
+  m_Size: {x: 40, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &112132797
 PrefabInstance:
@@ -14502,7 +14502,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.5554385, y: 20, z: 0.48660338}
+  m_Size: {x: 6.5554385, y: 30, z: 0.48660338}
   m_Center: {x: -3.1671884, y: 5.756421, z: -0.0000017210841}
 --- !u!23 &384263482
 MeshRenderer:
@@ -14608,7 +14608,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50, y: 20, z: 0.5}
+  m_Size: {x: 50, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &398319928
 PrefabInstance:
@@ -23897,7 +23897,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 20, z: 0.5}
+  m_Size: {x: 30, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &686730125
 PrefabInstance:
@@ -28169,7 +28169,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 40, y: 20, z: 0.5}
+  m_Size: {x: 40, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &835471013
 PrefabInstance:
@@ -33069,7 +33069,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 20, z: 0.5}
+  m_Size: {x: 30, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &1001154203
 PrefabInstance:
@@ -38502,6 +38502,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1161713423}
+  - component: {fileID: 1161713424}
   m_Layer: 0
   m_Name: Stages
   m_TagString: Untagged
@@ -38533,6 +38534,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1161713424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161713422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13114b6561093d94eb7dd29a4ca581bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1166030593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39942,7 +39955,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 40, y: 20, z: 0.5}
+  m_Size: {x: 40, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1 &1207043970
 GameObject:
@@ -42415,7 +42428,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.004746, y: 20, z: 2.004746}
+  m_Size: {x: 2.004746, y: 30, z: 2.004746}
   m_Center: {x: 0.00006991625, y: 5.5112576, z: 0.0055204034}
 --- !u!23 &1292626921
 MeshRenderer:
@@ -51248,7 +51261,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 20, z: 0.5}
+  m_Size: {x: 30, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1001 &1616367455
 PrefabInstance:
@@ -61730,7 +61743,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 20, z: 0.5}
+  m_Size: {x: 30, y: 30, z: 0.5}
   m_Center: {x: 0, y: 4.25, z: 0}
 --- !u!1 &1988600077
 GameObject:
@@ -69213,7 +69226,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 20, z: 0.5}
+  m_Size: {x: 15, y: 30, z: 0.5}
   m_Center: {x: -15.91, y: 4.25, z: 0}
 --- !u!4 &330702893838199201
 Transform:
@@ -69268,7 +69281,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 20, z: 0.5}
+  m_Size: {x: 15, y: 30, z: 0.5}
   m_Center: {x: 15.91, y: 4.25, z: 0}
 --- !u!1001 &330702894028676485
 PrefabInstance:
@@ -71251,7 +71264,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.5554385, y: 20, z: 0.48660338}
+  m_Size: {x: 6.5554385, y: 30, z: 0.48660338}
   m_Center: {x: -3.1671884, y: 5.756421, z: -0.0000017210841}
 --- !u!1 &919132148693081259
 GameObject:
@@ -71283,7 +71296,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.004746, y: 20, z: 2.004746}
+  m_Size: {x: 2.004746, y: 30, z: 2.004746}
   m_Center: {x: 0.00006991625, y: 5.5112576, z: 0.0055204034}
 --- !u!4 &962843894316919734
 Transform:

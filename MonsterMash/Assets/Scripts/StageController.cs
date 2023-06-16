@@ -30,8 +30,11 @@ public class StageController : MonoBehaviour
     public AudioClip fenceBarUpSound;
     public AudioClip spawnSound;
 
+    private StagesOptimization stagesOptimization;
+
     private void Awake()
     {
+        stagesOptimization = transform.parent.gameObject.GetComponent<StagesOptimization>();
         stageTrigger = GetComponent<Collider>();
         wavesLeft = wavesSpawnsContainers.Length;
         barInitScale = fence.transform.GetChild(0).localScale;
@@ -44,6 +47,7 @@ public class StageController : MonoBehaviour
         stageTrigger.enabled = false;
         GameController.instance.CurrentStage = this;
         GameController.OnVegetableDead += CheckVegetablesLeft;
+        stagesOptimization.OptimizeScene(this);
         if(GameController.instance.PreviousStage != null)
         {
             StartCoroutine(GameController.instance.PreviousStage.FenceUp());
