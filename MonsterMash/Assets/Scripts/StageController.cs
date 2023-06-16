@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -41,7 +40,7 @@ public class StageController : MonoBehaviour
 
     void StageActive()
     {
-        Debug.Log(gameObject.name + " Active");
+        //Debug.Log(gameObject.name + " Active");
         stageTrigger.enabled = false;
         GameController.instance.CurrentStage = this;
         GameController.OnVegetableDead += CheckVegetablesLeft;

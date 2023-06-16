@@ -164,6 +164,7 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Application.targetFrameRate = 60;
         inputMaster = new InputMaster();
         #if UNITY_EDITOR 
         inputMaster.EditorActions.Reset.performed += _ => Reset();
@@ -208,10 +209,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 120;
         gameOver = false;
         timerActive = false;
-        //StartGame();
     }
 
     // Update is called once per frame

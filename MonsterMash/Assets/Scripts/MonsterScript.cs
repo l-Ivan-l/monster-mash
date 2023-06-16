@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -213,7 +212,7 @@ public class MonsterScript : MonoBehaviour
             canStomp = false;
             stompFuel -= stompCost;
             GameController.instance.UpdateStompUI();
-            Debug.Log("Stomp fuel left: " + stompFuel);
+    
             if(stompVFX != null)
                 stompVFX.Play();
         }

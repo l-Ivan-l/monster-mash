@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Eggplant : Vegetable
@@ -65,7 +64,6 @@ public class Eggplant : Vegetable
         yield return new WaitForSeconds(explosionTime - blinkingTime);
         StartCoroutine(Blink());
         yield return new WaitForSeconds(blinkingTime);
-        Debug.Log("EXPLOSION!");
         SoundManager.instance.PlaySoundEffect(explosionSound, 1f);
         Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
         foreach (Collider hit in colliders)
@@ -75,7 +73,7 @@ public class Eggplant : Vegetable
             if (rb != null && rb.gameObject.CompareTag("Player"))
             {
                 rb.gameObject.GetComponent<MonsterScript>().onExplosion = true;
-                Debug.Log("Rigidbody on radius: " + rb.gameObject.name);
+                //Debug.Log("Rigidbody on radius: " + rb.gameObject.name);
                 rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius, 7.5f, ForceMode.Force);
             }
         }

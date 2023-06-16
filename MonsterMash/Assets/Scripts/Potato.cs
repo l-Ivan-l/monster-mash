@@ -1,11 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 public class Potato : Vegetable
 {
-    private float moveRate = 5f;
+    private float moveRate;
+    private float minMoveTime = 4.5f;
+    private float maxMoveTime = 5.5f;
     private bool canMove;
     private float collisionDetectorRadius = 0.6f;
     private float respawnRadius = 10f;
@@ -47,6 +48,7 @@ public class Potato : Vegetable
     {
         while(canMove)
         {
+            moveRate = Random.Range(minMoveTime, maxMoveTime);
             yield return new WaitForSeconds(moveRate);
             HideEffect();
             yield return new WaitForSeconds(0.75f);
@@ -58,7 +60,7 @@ public class Potato : Vegetable
             {
                 if(!IsOutsideStage(newPosition.z))
                 {
-                    if (Physics.CheckSphere(newPosition, collisionDetectorRadius, groundLayer))
+                    if (Physics.CheckSphere(newPosition, collisionDetectorRadius / 2f, groundLayer))
                     {
                         if (!Physics.CheckSphere(newPosition, collisionDetectorRadius, respawnDetectorLayer))
                         {
@@ -117,7 +119,7 @@ public class Potato : Vegetable
     {
         if(potentialPosZ > currentFence.transform.position.z)
         {
-            Debug.Log("Is Outside Stage");
+            //Debug.Log("Is Outside Stage");
             return true;
         }
         return false;

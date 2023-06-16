@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverController : MonoBehaviour
@@ -27,14 +25,12 @@ public class GameOverController : MonoBehaviour
     {
         monster = GameController.instance.pumpkinMan.gameObject.GetComponent<MonsterScript>();
         bestLifes = monster.initLifes;
-        Debug.Log("Best lifes: " + bestLifes);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player") && !GameController.instance.GameOver)
         {
-            Debug.Log("GAME OVER!");
             GameController.instance.GameOver = true;
 
             CalculateRank();
@@ -47,10 +43,6 @@ public class GameOverController : MonoBehaviour
         int score = GameController.instance.Score;
         float time = GameController.instance.CurrentTime;
         int lifes = monster.GetLifes();
-        Debug.Log("Calculate Rank: ");
-        Debug.Log("Score: " + score.ToString());
-        Debug.Log("Time: " + time.ToString());
-        Debug.Log("Lifes: " + lifes.ToString());
 
         if(score >= bestScore && time <= bestTime) //A perfect run
         {
