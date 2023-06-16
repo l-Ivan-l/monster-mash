@@ -24,6 +24,8 @@ public class Eggplant : Vegetable
     void Start()
     {
         scoreValue = 20;
+        givesFuel = true;
+        fuelAmount = 20f;
     }
 
     public override void OnEnable()

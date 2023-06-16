@@ -22,7 +22,7 @@ public class Potato : Vegetable
     {
         scoreValue = 5;
         givesFuel = true;
-        fuelAmount = 7f;
+        fuelAmount = 12f;
     }
 
     public override void OnEnable()

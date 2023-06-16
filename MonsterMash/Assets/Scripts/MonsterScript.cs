@@ -295,6 +295,12 @@ public class MonsterScript : MonoBehaviour
             stomp = false;
             StartCoroutine(StompCooldown(0.25f));
         }
+
+        if ((collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Prop")) && CheckIfMonsterGrounded())
+        {
+            onGround = false;
+            MonsterJump(jumpForce);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

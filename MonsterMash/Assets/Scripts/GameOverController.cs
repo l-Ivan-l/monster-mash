@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameOverController : MonoBehaviour
 {
     private MonsterScript monster;
-    private int bestScore = 2500;
-    private float bestTime = 60f * 5; //minutes
+    private int bestScore = 7000;
+    private float bestTime = 60f * 4.5f; //minutes
     private int bestLifes;
 
     private Rank rank;
@@ -27,6 +27,7 @@ public class GameOverController : MonoBehaviour
     {
         monster = GameController.instance.pumpkinMan.gameObject.GetComponent<MonsterScript>();
         bestLifes = monster.initLifes;
+        Debug.Log("Best lifes: " + bestLifes);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,6 +47,10 @@ public class GameOverController : MonoBehaviour
         int score = GameController.instance.Score;
         float time = GameController.instance.CurrentTime;
         int lifes = monster.GetLifes();
+        Debug.Log("Calculate Rank: ");
+        Debug.Log("Score: " + score.ToString());
+        Debug.Log("Time: " + time.ToString());
+        Debug.Log("Lifes: " + lifes.ToString());
 
         if(score >= bestScore && time <= bestTime) //A perfect run
         {
