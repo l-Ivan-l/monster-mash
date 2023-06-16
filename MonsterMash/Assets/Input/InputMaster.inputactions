@@ -24,7 +24,62 @@
             ],
             "bindings": [
                 {
-                    "name": "KeyboardMove",
+                    "name": "ArrowsMove",
+                    "id": "febc68e8-fd55-4793-91b4-818b4da3b1b2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "d12aa651-cc0d-4f8c-b5f7-949ff4ac1af3",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "576c1a6e-f7f9-4cc5-a85b-2d603344d2ed",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "0788ec23-5c13-461c-ac8b-4fc96448b727",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "69a8fe6c-edae-4594-8578-904131ca05ed",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "WASDMove",
                     "id": "8c29cdef-06a0-4a87-9761-0ad7b9c1ed7e",
                     "path": "2DVector",
                     "interactions": "",
@@ -79,7 +134,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "JoystickMove",
+                    "name": "GenericJoystickMove",
                     "id": "90a5b8a8-f818-47c4-a1b7-001b979b4b40",
                     "path": "2DVector",
                     "interactions": "",
@@ -134,9 +189,75 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "PSJoystickMove",
+                    "id": "d5dbabcb-f21d-49f2-bdda-2c6fc4f7dcad",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "3311e0f8-1c1d-4984-ad4c-8702c6dc7b1d",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "13d4b07d-fad4-4509-8e11-de700263a8c0",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "56af1b79-df52-4ee9-a75c-10747c7f5bcd",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "841b6821-d5fe-4689-9d8e-0a274b1b022e",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "77d77f5e-cabf-4382-969c-9761bbbb70c6",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Stomp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "235769ed-0ec8-4edb-90df-d28f72f3914d",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/button2",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -156,7 +277,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "DpadMove",
+                    "name": "GenericDpadMove",
                     "id": "8eaa26b6-a2fd-429d-b779-e0aa5439cec1",
                     "path": "2DVector",
                     "interactions": "",
@@ -211,8 +332,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "ArrowsMove",
-                    "id": "febc68e8-fd55-4793-91b4-818b4da3b1b2",
+                    "name": "PSDpadMove",
+                    "id": "15491e30-5be9-43ce-9730-a2ba3c17a6c6",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -223,44 +344,44 @@
                 },
                 {
                     "name": "up",
-                    "id": "d12aa651-cc0d-4f8c-b5f7-949ff4ac1af3",
-                    "path": "<Keyboard>/upArrow",
+                    "id": "b8cc94d0-561d-42fb-bb81-c896c710c89c",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "576c1a6e-f7f9-4cc5-a85b-2d603344d2ed",
-                    "path": "<Keyboard>/downArrow",
+                    "id": "e36e1464-6787-4a0a-9916-3fb06029de99",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "0788ec23-5c13-461c-ac8b-4fc96448b727",
-                    "path": "<Keyboard>/leftArrow",
+                    "id": "b4ebca90-6f44-48c7-b441-7eedf238867c",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "69a8fe6c-edae-4594-8578-904131ca05ed",
-                    "path": "<Keyboard>/rightArrow",
+                    "id": "a4c7544f-0e42-40c9-b349-4971fa1835dc",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -400,7 +521,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "JoystickMove",
+                    "name": "GenericJoystickMove",
                     "id": "254377c5-f45d-4ae0-9b87-955d677dd9b2",
                     "path": "2DVector",
                     "interactions": "",
@@ -455,7 +576,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "DpadMove",
+                    "name": "GenericDpadMove",
                     "id": "7d280d7f-4ba0-4990-926e-5747a79e6362",
                     "path": "2DVector",
                     "interactions": "",
@@ -538,6 +659,127 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "PSJoystickMove",
+                    "id": "1d6a8716-5c02-4adb-a4dd-9735e0a4585a",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "5ea8e467-6c2d-4134-b325-13d989ca57c4",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "2681b76a-a28e-46bd-89d2-8468fbd0722d",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f761db06-1d44-4fe6-8bb3-f2dd004549a1",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "51e5f999-d8de-49a0-be00-885d44f064d0",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "PSDpadMove",
+                    "id": "22be6543-7d7b-4bae-95c2-ff4f5915c16a",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "f1000d86-86bd-4aba-9fb4-b16a6b36470c",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "bd310ae2-de88-4155-a8dd-f017c55f02be",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "eaf31915-234d-48dd-98a6-fb795bb3d5dc",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1278c7f8-ccb8-4225-88a0-7bae487282e8",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/hat/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Navigate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "244b70ab-9f79-4856-ad6c-e6d85dd24253",
+                    "path": "<HID::Sony Interactive Entertainment DualSense Wireless Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
